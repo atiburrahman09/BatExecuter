@@ -1,0 +1,17 @@
+E:\work\Projects\BatExecuterApp\BatExecuterApp\bin\Debug\net6.0-windows\BatExecuterApp.exe
+E:\work\Projects\BatExecuterApp\BatExecuterApp\bin\Debug\net6.0-windows\BatExecuterApp.deps.json
+E:\work\Projects\BatExecuterApp\BatExecuterApp\bin\Debug\net6.0-windows\BatExecuterApp.runtimeconfig.json
+E:\work\Projects\BatExecuterApp\BatExecuterApp\bin\Debug\net6.0-windows\BatExecuterApp.dll
+E:\work\Projects\BatExecuterApp\BatExecuterApp\bin\Debug\net6.0-windows\BatExecuterApp.pdb
+E:\work\Projects\BatExecuterApp\BatExecuterApp\obj\Debug\net6.0-windows\BatExecuterApp.csproj.AssemblyReference.cache
+E:\work\Projects\BatExecuterApp\BatExecuterApp\obj\Debug\net6.0-windows\BatExecuterApp.EntryForm.resources
+E:\work\Projects\BatExecuterApp\BatExecuterApp\obj\Debug\net6.0-windows\BatExecuterApp.csproj.GenerateResource.cache
+E:\work\Projects\BatExecuterApp\BatExecuterApp\obj\Debug\net6.0-windows\BatExecuterApp.GeneratedMSBuildEditorConfig.editorconfig
+E:\work\Projects\BatExecuterApp\BatExecuterApp\obj\Debug\net6.0-windows\BatExecuterApp.AssemblyInfoInputs.cache
+E:\work\Projects\BatExecuterApp\BatExecuterApp\obj\Debug\net6.0-windows\BatExecuterApp.AssemblyInfo.cs
+E:\work\Projects\BatExecuterApp\BatExecuterApp\obj\Debug\net6.0-windows\BatExecuterApp.csproj.CoreCompileInputs.cache
+E:\work\Projects\BatExecuterApp\BatExecuterApp\obj\Debug\net6.0-windows\BatExecuterApp.dll
+E:\work\Projects\BatExecuterApp\BatExecuterApp\obj\Debug\net6.0-windows\refint\BatExecuterApp.dll
+E:\work\Projects\BatExecuterApp\BatExecuterApp\obj\Debug\net6.0-windows\BatExecuterApp.pdb
+E:\work\Projects\BatExecuterApp\BatExecuterApp\obj\Debug\net6.0-windows\BatExecuterApp.genruntimeconfig.cache
+E:\work\Projects\BatExecuterApp\BatExecuterApp\obj\Debug\net6.0-windows\ref\BatExecuterApp.dll
