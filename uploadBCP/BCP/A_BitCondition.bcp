@@ -1,0 +1,159 @@
+1|LIve (last 7 days)|Heartbeat|1|SELECT [AssetID], case         when dateDiff(day,[heartbeat],getdate())< 8 then 1    else 0 end as [RESULT] 
+from [ARM_CORE]..[Asset]|1|Asset|BitStatus|AssetID|1|1|||0
+2|Live (last 14 days)|Heartbeat|2|select [AssetID], case  
+            when dateDiff(day,[heartbeat],getdate())< 15 then 1
+            else 0 
+end as [RESULT] from [ARM_CORE]..[Asset]|2|Asset|BitStatus|AssetID|1|1|||0
+3|LIve (last 30 days)|Heartbeat|3|select [AssetID], case  
+            when dateDiff(day,[heartbeat],getdate())< 31 then 1
+            else 0
+ end as [RESULT] from [ARM_CORE]..[Asset]|3|Asset|BitStatus|AssetID|1|1|||0
+4|90 Days and Over|Heartbeat|4|select [AssetID], case  
+            when dateDiff(day,[heartbeat],getdate()) > 89  then 1
+            else 0
+ end as [RESULT] from [ARM_CORE]..[Asset]|4|Asset|BitStatus|AssetID|1|1|||0
+5|Laptop|Type|10|select [AssetID], case when [Type] = 'laptop' then 1   else 0  end as [RESULT] from [ARM_CORE]..[Asset]|10|Asset|BitStatus|AssetID|1|1|||0
+6|Desktop|Type|11|select [AssetID], case when [Type] = 'desktop' then 1   else 0  end as [RESULT] from [ARM_CORE]..[Asset]|11|Asset|BitStatus|AssetID|1|1|||0
+7|Workstation|Type|12|select [AssetID], case when [Type] = 'workstation' then 1   else 0  end as [RESULT] from [ARM_CORE]..[Asset]|12|Asset|BitStatus|AssetID|1|1|||0
+8|Virtual|Type|13|select [AssetID], case when [Type] = 'vm' then 1   else 0  end as [RESULT] from [ARM_CORE]..[Asset]|13|Asset|BitStatus|AssetID|1|1|||0
+33|Not Live|Heartbeat|5|select [AssetID], case  
+            when dateDiff(day,[heartbeat],getdate())> 30 then 1
+            else 0 
+end as [RESULT] from [ARM_CORE]..[Asset]|5|Asset|BitStatus|AssetID|1|1|||0
+44|Base Build|Deploy Type|10|select [ApplicationID], case when [DeployType] = 'B' then 1   else 0  end as [RESULT] from [ARM_CORE]..[Application]|20|Application|BitStatus|ApplicationID|1|1|||0
+45|Exclude|Deploy Type|15|select [ApplicationID], case when [DeployType] = 'X' then 1   else 0  end as [RESULT] from [ARM_CORE]..[Application]|21|Application|BitStatus|ApplicationID|1|1|||0
+46|Manual|Deploy Type|20|select [ApplicationID], case when [DeployType] = 'M' then 1   else 0  end as [RESULT] from [ARM_CORE]..[Application]|22|Application|BitStatus|ApplicationID|1|1|||0
+47|Packaged|Deploy Type|25|select [ApplicationID], case when [DeployType] = 'P' then 1   else 0  end as [RESULT] from [ARM_CORE]..[Application]|23|Application|BitStatus|ApplicationID|1|1|||0
+48|Packaged (Wrapped)|Deploy Type|30|select [ApplicationID], case when [DeployType] = 'Pw' then 1   else 0  end as [RESULT] from [ARM_CORE]..[Application]|24|Application|BitStatus|ApplicationID|1|1|||0
+49|Packaged plus ACtion|Deploy Type|35|select [ApplicationID], case when [DeployType] = 'P+' then 1   else 0  end as [RESULT] from [ARM_CORE]..[Application]|25|Application|BitStatus|ApplicationID|1|1|||0
+50|Virtual (App-V)|Deploy Type|40|select [ApplicationID], case when [DeployType] = 'V' then 1   else 0  end as [RESULT] from [ARM_CORE]..[Application]|26|Application|BitStatus|ApplicationID|1|1|||0
+51|Web|Deploy Type|45|select [ApplicationID], case when [DeployType] = 'W' then 1   else 0  end as [RESULT] from [ARM_CORE]..[Application]|27|Application|BitStatus|ApplicationID|1|1|||0
+52|Not Specified|Deploy Type|50|select distinct b.[ApplicationID], 
+case when NOT IsNull( [DeployType],'') in ( 'B','X','M','P','Pw','P+','V','W')  then 1   else 0  end as [RESULT]  
+from [ARM_CORE]..[AppAstToBe] b
+left join [ARM_CORE]..[Application] a on a.ApplicationID = b.ApplicationID|38|Application|BitStatus|ApplicationID|1|1|||0
+53|High|Criticality|10|select a.[ApplicationID], case when g.[Criticality] = 'High'  then 1   else 0  end as [RESULT] 
+from [ARM_CORE]..[Application] a LEFT JOIN [ARM_CORE]..[AppGroup] g on g.AppGroupID = a.AppGroupID|6|Application|BitStatus|ApplicationID|1|1|||0
+54|Medium|Criticality|20|select a.[ApplicationID], case when g.[Criticality] = 'Medium'  then 1   else 0  end as [RESULT] 
+from [ARM_CORE]..[Application] a LEFT JOIN [ARM_CORE]..[AppGroup] g on g.AppGroupID = a.AppGroupID|7|Application|BitStatus|ApplicationID|1|1|||0
+55|Low|Criticality|30|select a.[ApplicationID], case when g.[Criticality] = 'Low'  then 1   else 0  end as [RESULT] 
+from [ARM_CORE]..[Application] a LEFT JOIN [ARM_CORE]..[AppGroup] g on g.AppGroupID = a.AppGroupID|8|Application|BitStatus|ApplicationID|1|1|||0
+56|Not Specified|Criticality|40|select a.[ApplicationID], case when NOT IsNull(g.[Criticality],'') in ( 'High','Medium','Low')  then 1   else 0  end as [RESULT] 
+
+from [ARM_CORE]..[Application] a LEFT JOIN [ARM_CORE]..[AppGroup] g on g.AppGroupID = a.AppGroupID|9|Application|BitStatus|ApplicationID|1|1|||0
+64|Apps Ready|Readiness|6|SELECT distinct a.Assetid, 1 as [RESULT] from ARM_CORE..[Asset] a
+left join (
+	SELECT distinct AssetID from ARM_CORE..AppAstToBe apps 
+	LEFT JOIN ARM_CORE..[Application] ap on ap.ApplicationID = apps.ApplicationID 
+	where IsNull(ap.Ready,0) = 0 and NOT (ap.DeployType = 'X' or IsNull(ap.Exclude,0) = 1)
+) x on x.assetid = a.assetID
+where a.Live = 1 and x.Assetid IS NULL |6|Asset|BitStatus|AssetID|1|1|||0
+66|Apps NOT Ready|Readiness|7|SELECT distinct a.Assetid, 1 as [RESULT] from ARM_CORE..[Asset] a
+left join (
+SELECT distinct AssetID from ARM_CORE..AppAstToBe apps 
+LEFT JOIN ARM_CORE..[Application] ap on ap.ApplicationID = apps.ApplicationID 
+where IsNull(ap.Ready,0) = 0 and NOT (ap.DeployType = 'X' or IsNull(ap.Exclude,0) = 1)
+) x on x.assetid = a.assetID 
+where NOT x.Assetid IS NULL or a.Live = 0 |7|Asset|BitStatus|AssetID|1|1|||0
+68|Ready|Readiness|5|select [ApplicationID], 1 [RESULT] from [ARM_CORE]..[Application] where IsNull([Ready],0) = 1|1|Application|BitStatus|ApplicationID|1|1|||0
+69|Not Ready|Readiness|10|select [ApplicationID], 1 [RESULT] from [ARM_CORE]..[Application] where IsNull([Ready],0) = 0|2|Application|BitStatus|ApplicationID|1|1|||0
+70|Live (last 7 days)|Heartbeat|1|SELECT [UserID], 
+case         when dateDiff(day,[heartbeat],getdate())< 8 then 1    else 0 end as [RESULT] 
+from [ARM_CORE]..[User]|1|User|BitStatus|UserID|1|1|||0
+71|Live (last 30 days)|Heartbeat|2|SELECT [UserID], 
+case         when dateDiff(day,[heartbeat],getdate())< 31 then 1    else 0 end as [RESULT] 
+from [ARM_CORE]..[User]|2|User|BitStatus|UserID|1|1|||0
+72|Not Live|Heartbeat|5|SELECT [UserID], 
+case         when dateDiff(day,[heartbeat],getdate())>30 then 1    else 0 end as [RESULT] 
+from [ARM_CORE]..[User]|5|User|BitStatus|UserID|1|1|||0
+73|Probook|Type|14|select [AssetID], case when [Type] = 'Probook' then 1   else 0  end as [RESULT] from [ARM_CORE]..[Asset]|14|Asset|BitStatus|AssetID|1|1|||0
+74|EliteBook|Type|15|select [AssetID], case when [Type] = 'EliteBook' then 1   else 0  end as [RESULT] from [ARM_CORE]..[Asset]|15|Asset|BitStatus|AssetID|1|1|||0
+75|Phone|Type|20|select [AssetID], case when [Type] = 'Phone' then 1   else 0  end as [RESULT] from [ARM_CORE]..[Asset]|16|Asset|BitStatus|AssetID|1|1|||0
+76|Printer|Type|22|select [AssetID], case when [Type] = 'Printer' then 1   else 0  end as [RESULT] from [ARM_CORE]..[Asset]|17|Asset|BitStatus|AssetID|1|1|||0
+77|MobileCad|Type|25|select [AssetID], case when [Type] = 'MobileCad' then 1   else 0  end as [RESULT] from [ARM_CORE]..[Asset]|18|Asset|BitStatus|AssetID|1|1|||0
+78|Not Set|Type|50|select [AssetID], case when ([Type] = '' or [Type] IS NULL) then 1   else 0  end as [RESULT] from [ARM_CORE]..[Asset]|19|Asset|BitStatus|AssetID|1|1|||0
+79|Other|Type|100|select [AssetID], 
+case when (NOT [Type] in ('Phone', '','laptop','desktop','workstation','vm','Probook','EliteBook','Printer','MobilCad') 
+and NOT [Type] IS NULL) then 1   else 0  end as [RESULT] 
+from [ARM_CORE]..[Asset]|20|Asset|BitStatus|AssetID|1|1|||0
+80|Basebuild ONLY|Applications|5|Select a.AssetID, case when IsNull(z.Apps,0) = 0 and a.Live = 1 then 1 else 0 end as [RESULT] 
+from [ARM_CORE]..[Asset] a 
+LEFT JOIN (
+	SELECT bb.AssetID, count(bb.ApplicationID) as Apps from [ARM_CORE]..[AppAstToBe] bb 
+	LEFT JOIN [ARM_CORE]..[Application] p on p.ApplicationID = bb.ApplicationID 
+	where  left(bb.ApplicationID,1) <> '_' and IsNull(p.DeployType,'-') <> 'X' group by bb.AssetID 
+
+) z on z.AssetID = a.AssetID|25|Asset|BitStatus|AssetID|1|1|||0
+81|More than 10|Applications|10|Select a.AssetID, case when IsNull(z.Apps,0) > 10 and a.Live = 1 then 1 else 0 end as [RESULT] 
+from [ARM_CORE]..[Asset] a 
+LEFT JOIN (
+	SELECT bb.AssetID, count(bb.ApplicationID) as Apps from [ARM_CORE]..[AppAstToBe] bb 
+	LEFT JOIN [ARM_CORE]..[Application] p on p.ApplicationID = bb.ApplicationID 
+	where  left(bb.ApplicationID,1) <> '_' and IsNull(p.DeployType,'-') <> 'X' group by bb.AssetID 
+) z on z.AssetID = a.AssetID|26|Asset|BitStatus|AssetID|1|1|||0
+82|< 15GB|Disk Space|5|Select a.AssetID, case when IsNull(d.FreeGB,100)  <= 15 and d.Drive = 'C:' then 1 else 0 end as [RESULT] 
+
+from [ARM_CORE]..[Asset] a 
+LEFT JOIN [ARM_CORE]..[AssetDrives] d on d.AssetID = a.AssetID|30|Asset|BitStatus|AssetID|1|0|||0
+83|> 15GB|DIsk Space|10|Select a.AssetID, case when IsNull(d.FreeGB,100)  > 15 and d.Drive = 'C:' then 1 else 0 end as [RESULT] 
+from [ARM_CORE]..[Asset] a 
+LEFT JOIN [ARM_CORE]..[AssetDrives] d on d.AssetID = a.AssetID |31|Asset|BitStatus|AssetID|1|0|||0
+84|No Data|Disk SPace|15|Select a.AssetID, case when d.FreeGB IS NULL then 1 else 0 end as [RESULT] 
+from [ARM_CORE]..[Asset] a 
+LEFT JOIN [ARM_CORE]..[AssetDrives] d on d.AssetID = a.AssetID|32|Asset|BitStatus|AssetID|1|0|||0
+85|ACE2 Ready|Readiness|20| |8|Asset|BitStatus|AssetID|1|1|15||2
+86|Discovery|Application Readiness|0||40|Application|BitStatus|ApplicationID|1|1||289|0
+87|Application Owner Request|Application Readiness|10||41|Application|BitStatus|ApplicationID|1|0||112|0
+88|Application Owner Disputed|Application Readiness|15||42|Application|BitStatus|ApplicationID|1|0||192|0
+89|Alternative Application Owner Suggested|Application Readiness|18||43|Application|BitStatus|ApplicationID|1|0||193|0
+90|Application Owner Confirmed|Application Readiness|20||44|Application|BitStatus|ApplicationID|1|0||149|0
+91|OAT|Application Readiness|30||45|Application|BitStatus|ApplicationID|1|0||291|0
+92|OAT Issue|Application Readiness|36||46|Application|BitStatus|ApplicationID|1|0||154|0
+93|UAT|Application Readiness|40||47|Application|BitStatus|ApplicationID|1|0||292|0
+94|UAT Issue|Application Readiness|45||48|Application|BitStatus|ApplicationID|1|0||156|0
+95|Remediation|Application Readiness|50||49|Application|BitStatus|ApplicationID|1|1||293|0
+96|Packaging|Application Readiness|70||50|Application|BitStatus|ApplicationID|1|0||118|0
+98|Ready|Application Readiness|900||52|Application|BitStatus|ApplicationID|1|1||294|0
+99|Out Of Scope|Application Readiness|1000||53|Application|BitStatus|ApplicationID|1|1||295|0
+100|Refresh|Deployment|10|	select a.[AssetID], 1 as [RESULT] from ARM_CORE..[Asset] a 
+	LEFT JOIN ARM_CORE..[A_CollectionItem] i on i.ItemID  = a.[AssetID] and i.CollectionID = 126
+	LEFT JOIN ARM_CORE..[A_CollectionItem] i2 on i2.ItemID  = a.[AssetID] and i2.CollectionID = 108
+	where i.ItemID IS NULL and i2.ItemID IS NULL and IsNull(a.AssetID,'') <> ''|50|Asset|BitStatus|AssetID|1|0|||0
+101|Windows 10 (18363)|Build|30|select [AssetID], case when [BuildNumber] = '18363' then 1   else 0  end as [RESULT] from [ARM_CORE]..[Asset]  where IsNull(AssetID,'') <> '' |42|Asset|BitStatus|AssetID|1|1|||0
+102|Replace|Deployment|20|	select i.itemID as [AssetID], 1 as [RESULT] from ARM_CORE..[A_CollectionItem] i 
+	LEFT JOIN ARM_CORE..[A_CollectionItem] i2 on i2.ItemID  = i.ItemID and i2.CollectionID = 108
+	where i.CollectionID = 126 and i2.ItemID IS NULL|51|Asset|BitStatus|AssetID|1|0|||0
+103|Deployed|Deployment|30|	SELECT itemID as [AssetID], 1 as [RESULT] from ARM_CORE..[A_CollectionItem] i where i.CollectionID = 108|52|Asset|BitStatus|AssetID|1|1|||1
+104|Windows 7 (7601)|Build|10|select [AssetID], case when [BuildNumber] = '7601' then 1   else 0  end as [RESULT] from [ARM_CORE]..[Asset] where IsNull(AssetID,'') <> '' |40|Asset|BitStatus|AssetID|1|1|||0
+105|Windows 10 (17134)|Build|20|select [AssetID], case when [BuildNumber] = '17134' then 1   else 0  end as [RESULT] from [ARM_CORE]..[Asset]  where IsNull(AssetID,'') <> '' |41|Asset|BitStatus|AssetID|1|1|||0
+106|WIndows 10 (19042)|Build|40|select [AssetID], case when [BuildNumber] = '19042' then 1   else 0  end as [RESULT] from [ARM_CORE]..[Asset]  where IsNull(AssetID,'') <> '' |43|Asset|BitStatus|AssetID|1|1|||0
+107|Other|Build|50|select [AssetID], case when NOT IsNull([BuildNumber],'') in ('7601', '17134' , '18383', '19042') then 1   else 0  end as [RESULT] from [ARM_CORE]..[Asset]|44|Asset|BitSTatus|AssetID|1|1|||0
+108|Excluded|Readiness|15|select [ApplicationID], 1 [RESULT] from [ARM_CORE]..[Application] where IsNull([Exclude],0) = 1|3|Application|BitStatus|ApplicationID|1|1|||0
+109|O365 Data Migrated|Readiness|10|SELECT [ItemID] as [AssetID], 1 as [RESULT] from ARM_CORE..[A_CollectionItem]  where CollectionID = 178|9|Asset|BitStatus|AssetID|1|1|||2
+110|Not Excluded|Readiness|20|select [ApplicationID], 1 [RESULT] from [ARM_CORE]..[Application] where IsNull([Exclude],0) = 0|4|Application|BitStatus|ApplicationID|1|1|||0
+111|Not Ready Not Excluded|Readiness|7|select [ApplicationID], 1 [RESULT] from [ARM_CORE]..[Application] where IsNull([Ready],0) = 0 and IsNull([Exclude],0) = 0|5|Application|BitStatus|ApplicationID|1|1|||0
+112|Ready Not Excluded|Readiness|6|select [ApplicationID], 1 [RESULT] from [ARM_CORE]..[Application] where IsNull([Ready],0) = 1 and IsNull([Exclude],0) = 0|30|Application|BitStatus|ApplicationID|1|1|||0
+113|Not Deployed|Deployment|40|SELECT a.AssetID, 1 as [RESULT]  from [ARM_CORE]..[Asset] a where dbo.[CheckBitStatus](a.BitStatus,'Deployment','Deployed')=0|53|Asset|BitStatus|AssetID|1|1|||1
+114|Excluded|ACE2 Status|0| |10|User|BitStatus|UserID|1|0|21||0
+115|Exclude|Readiness|5| |21|Asset|BitStatus|AssetID|1|1|37||1
+116|TEST|TEST|23||23|Asset|BitStatus|AssetID|1|1||8|0
+117|Primary|Group Type|10|select a.[ApplicationID], 1 as [RESULT] from [ARM_CORE]..[Application] a LEFT JOIN [ARM_CORE]..[AppGroup] g on g.AppGroupID = a.AppGroupID where AppGroupType = 0|11|Application|BitStatus|ApplicationID|1|1|||0
+118|Primary - Exclude|Group Type|20|select a.[ApplicationID], 1 as [RESULT] from [ARM_CORE]..[Application] a LEFT JOIN [ARM_CORE]..[AppGroup] g on g.AppGroupID = a.AppGroupID where AppGroupType = 2|12|Application|BitStatus|ApplicationID|1|1|||0
+119|Primary - Stop|Group Type|30|select a.[ApplicationID], 1 as [RESULT] from [ARM_CORE]..[Application] a LEFT JOIN [ARM_CORE]..[AppGroup] g on g.AppGroupID = a.AppGroupID where AppGroupType = 10|13|Application|BitStatus|ApplicationID|1|1|||0
+120|Secondary - Stop|Group Type|40|select a.[ApplicationID], 1 as [RESULT] from [ARM_CORE]..[Application] a LEFT JOIN [ARM_CORE]..[AppGroup] g on g.AppGroupID = a.AppGroupID where AppGroupType = 20|14|Application|BitStatus|ApplicationID|1|1|||0
+121|Orphan|Group Type|50|select a.[ApplicationID], 1 as [RESULT] from [ARM_CORE]..[Application] a LEFT JOIN [ARM_CORE]..[AppGroup] g on g.AppGroupID = a.AppGroupID where AppGroupType = 30|15|Application|BitStatus|ApplicationID|1|1|||0
+122|Disabled|Group Type|60|select a.[ApplicationID], 1 as [RESULT] from [ARM_CORE]..[Application] a LEFT JOIN [ARM_CORE]..[AppGroup] g on g.AppGroupID = a.AppGroupID where AppGroupType = -1|16|Application|BitStatus|ApplicationID|1|1|||0
+123|Secondary - Exclude Build|Group Type|36|select a.[ApplicationID], 1 as [RESULT] from [ARM_CORE]..[Application] a LEFT JOIN [ARM_CORE]..[AppGroup] g on g.AppGroupID = a.AppGroupID where AppGroupType = 17|17|Application|BitStatus|ApplicationID|1|1|||0
+124|Secondary - Exclude|Group Type|35|select a.[ApplicationID], 1 as [RESULT] from [ARM_CORE]..[Application] a LEFT JOIN [ARM_CORE]..[AppGroup] g on g.AppGroupID = a.AppGroupID where AppGroupType = 15|18|Application|BitStatus|ApplicationID|1|1|||0
+125|Primary - Exclude Build|Group Type|22|select a.[ApplicationID], 1 as [RESULT] from [ARM_CORE]..[Application] a LEFT JOIN [ARM_CORE]..[AppGroup] g on g.AppGroupID = a.AppGroupID where AppGroupType = 3|19|Application|BitStatus|ApplicationID|1|1|||0
+126|TEST|TEST|23||23|Asset|BitStatus|AssetID|1|1||2672|0
+128| ||||||||1|0|||0
+129|Primary|Group Type|0|select [AppGroupID], 1 as [RESULT] from [ARM_CORE]..[AppGroup] where AppGroupType = 0|1|AppGroup|BitStatus|AppGroupID|1|1|||0
+130|Primary - Exclude|Group Type|2|select [AppGroupID], 1 as [RESULT] from [ARM_CORE]..[AppGroup] where AppGroupType = 2|2|AppGroup|BitStatus|AppGroupID|1|1|||0
+131|Primary - Stop|Group Type|10|select [AppGroupID], 1 as [RESULT] from [ARM_CORE]..[AppGroup] where AppGroupType = 10|3|AppGroup|BitStatus|AppGroupID|1|1|||0
+132|Secondary - Stop|Group Type|20|select [AppGroupID], 1 as [RESULT] from [ARM_CORE]..[AppGroup] where AppGroupType = 20|4|AppGroup|BitStatus|AppGroupID|1|1|||0
+133|Orphan|Group Type|30|select [AppGroupID], 1 as [RESULT] from [ARM_CORE]..[AppGroup] where AppGroupType = 30|5|AppGroup|BitStatus|AppGroupID|1|1|||0
+134|Disabled|Group Type|60|select [AppGroupID], 1 as [RESULT] from [ARM_CORE]..[AppGroup] where AppGroupType = -1|6|AppGroup|BitStatus|AppGroupID|1|1|||0
+135|Primary - Exclude Build|Group Type|3|select [AppGroupID], 1 as [RESULT] from [ARM_CORE]..[AppGroup] where AppGroupType = 3|7|AppGroup|BitStatus|AppGroupID|1|1|||0
+136|Secondary|Group Type|15|select [AppGroupID], 1 as [RESULT] from [ARM_CORE]..[AppGroup] where AppGroupType = 15|8|AppGroup|BitStatus|AppGroupID|1|1|||0
+137|Secondary - Exclude |Group Type|17|select [AppGroupID], 1 as [RESULT] from [ARM_CORE]..[AppGroup] where AppGroupType = 17|9|AppGroup|BitStatus|AppGroupID|1|1|||0

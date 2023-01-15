@@ -1,0 +1,1682 @@
+1|Checklist|Creates Checklist|/****** Object:  Table [dbo].[CheckList]    Script Date: 3/10/2022 10:46:55 AM ******/
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[CheckList](
+	[CheckListID] [int] IDENTITY(1,1) NOT NULL,
+	[CheckListName] [nvarchar](250) NOT NULL,
+	[Title] [nvarchar](250) NULL,
+	[Navigator] [bit] NULL,
+	[Progress] [bit] NULL,
+	[IsBArea] [bit] NULL,
+	[ControlledList] [bit] NULL,
+	[Active] [bit] NULL,
+	[LowThreshold] [int] NULL,
+	[HighThreshold] [int] NULL,
+	[BRAG] [bit] NULL,
+	[Project] [nvarchar](250) NULL,
+	[ShowOVR] [bit] NULL,
+	[WeeklySnapShot] [bit] NULL
+) ON [PRIMARY]
+
+ALTER TABLE [dbo].[CheckList] ADD  CONSTRAINT [DF_CheckList_CheckListName]  DEFAULT ('') FOR [CheckListName]
+ALTER TABLE [dbo].[CheckList] ADD  CONSTRAINT [DF_CheckList_Navigator]  DEFAULT ((1)) FOR [Navigator]
+ALTER TABLE [dbo].[CheckList] ADD  CONSTRAINT [DF_CheckList_Progress]  DEFAULT ((1)) FOR [Progress]
+ALTER TABLE [dbo].[CheckList] ADD  CONSTRAINT [DF_CheckList_IsBArea]  DEFAULT ((0)) FOR [IsBArea]
+ALTER TABLE [dbo].[CheckList] ADD  CONSTRAINT [DF_CheckList_ControlledList]  DEFAULT ((0)) FOR [ControlledList]
+ALTER TABLE [dbo].[CheckList] ADD  CONSTRAINT [DF_CheckList_Active]  DEFAULT ((1)) FOR [Active]
+ALTER TABLE [dbo].[CheckList] ADD  CONSTRAINT [DF_CheckList_LowThreshold]  DEFAULT ((25)) FOR [LowThreshold]
+ALTER TABLE [dbo].[CheckList] ADD  CONSTRAINT [DF_CheckList_HighThreshold]  DEFAULT ((75)) FOR [HighThreshold]
+ALTER TABLE [dbo].[CheckList] ADD  CONSTRAINT [DF_CheckList_BRAG]  DEFAULT ((1)) FOR [BRAG]
+ALTER TABLE [dbo].[CheckList] ADD  CONSTRAINT [DF_CheckList_ShowOVR]  DEFAULT ((1)) FOR [ShowOVR]
+ALTER TABLE [dbo].[CheckList] ADD  CONSTRAINT [DF_CheckList_WeeklySnapShot]  DEFAULT ((0)) FOR [WeeklySnapShot]
+
+/****** Object:  Table [dbo].[CheckListAuditLog]    Script Date: 3/10/2022 10:47:05 AM ******/
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[CheckListAuditLog](
+	[CheckListAuditLog] [int] IDENTITY(1,1) NOT NULL,
+	[Action] [nchar](50) NULL,
+	[CheckListresponseID] [int] NULL,
+	[ItemID] [int] NULL,
+	[Value] [nvarchar](50) NULL,
+	[Area] [nchar](255) NULL,
+	[AuthUser] [nchar](255) NULL,
+	[TimeStamp] [datetime] NULL,
+	[ChecklistID] [int] NULL
+) ON [PRIMARY]
+
+/****** Object:  Table [dbo].[CheckListControlList]    Script Date: 3/10/2022 10:47:13 AM ******/
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[CheckListControlList](
+	[CheckListControlListID] [int] IDENTITY(1,1) NOT NULL,
+	[CheckListID] [int] NULL,
+	[Area] [nvarchar](255) NULL,
+	[Active] [bit] NULL
+) ON [PRIMARY]
+
+ALTER TABLE [dbo].[CheckListControlList] ADD  CONSTRAINT [DF_CheckListControlList_Active]  DEFAULT ((1)) FOR [Active]
+
+/****** Object:  Table [dbo].[CheckListGroup]    Script Date: 3/10/2022 10:47:20 AM ******/
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[CheckListGroup](
+	[CheckListGroupID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](250) NULL,
+	[Order] [int] NULL,
+	[CheckListID] [int] NULL,
+	[Comment] [nvarchar](max) NULL,
+	[Stage] [nvarchar](250) NULL,
+	[Active] [bit] NOT NULL,
+	[StageOrder] [int] NULL,
+	[CheckListStageID] [int] NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+ALTER TABLE [dbo].[CheckListGroup] ADD  CONSTRAINT [DF_RCheckListGroup_Order]  DEFAULT ((100)) FOR [Order]
+ALTER TABLE [dbo].[CheckListGroup] ADD  CONSTRAINT [DF_CheckListGroup_Active]  DEFAULT ((1)) FOR [Active]
+ALTER TABLE [dbo].[CheckListGroup] ADD  CONSTRAINT [DF_CheckListGroup_StageOrder]  DEFAULT ((100)) FOR [StageOrder]
+
+/****** Object:  Table [dbo].[CheckListItem]    Script Date: 3/10/2022 10:47:27 AM ******/
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[CheckListItem](
+	[CheckListItemID] [int] IDENTITY(1,1) NOT NULL,
+	[CheckListGroupID] [int] NOT NULL,
+	[Item] [nvarchar](500) NULL,
+	[SubOrder] [int] NULL,
+	[Weight] [int] NULL,
+	[Description] [nvarchar](max) NULL,
+	[Active] [bit] NOT NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+ALTER TABLE [dbo].[CheckListItem] ADD  CONSTRAINT [DF_CheckListItem_CheckListGroupID]  DEFAULT ((0)) FOR [CheckListGroupID]
+ALTER TABLE [dbo].[CheckListItem] ADD  CONSTRAINT [DF_CheckListItem_Item]  DEFAULT ('') FOR [Item]
+ALTER TABLE [dbo].[CheckListItem] ADD  CONSTRAINT [DF_CheckListItem_SubOrder]  DEFAULT ((100)) FOR [SubOrder]
+ALTER TABLE [dbo].[CheckListItem] ADD  CONSTRAINT [DF_CheckListItem_Weight]  DEFAULT ((1)) FOR [Weight]
+ALTER TABLE [dbo].[CheckListItem] ADD  CONSTRAINT [DF_CheckListItem_Active]  DEFAULT ((0)) FOR [Active]
+
+/****** Object:  Table [dbo].[CheckListOption]    Script Date: 3/10/2022 10:47:35 AM ******/
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[CheckListOption](
+	[CheckListOptionID] [int] IDENTITY(1,1) NOT NULL,
+	[Label] [nvarchar](50) NULL,
+	[Value] [int] NULL,
+	[Colour] [nvarchar](50) NULL,
+	[CheckListID] [int] NULL,
+	[Order] [int] NULL,
+	[Slider] [bit] NULL
+) ON [PRIMARY]
+
+ALTER TABLE [dbo].[CheckListOption] ADD  CONSTRAINT [DF_CheckListOption_CheckListID]  DEFAULT ((0)) FOR [CheckListID]
+ALTER TABLE [dbo].[CheckListOption] ADD  CONSTRAINT [DF_CheckListOption_Order]  DEFAULT ((0)) FOR [Order]
+	
+/****** Object:  Table [dbo].[CheckListResponse]    Script Date: 3/10/2022 10:47:41 AM ******/
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[CheckListResponse](
+	[CheckListResponseID] [int] IDENTITY(1,1) NOT NULL,
+	[ItemID] [int] NULL,
+	[Value] [nvarchar](50) NULL,
+	[Area] [nvarchar](255) NULL,
+	[AuthUser] [nvarchar](255) NULL,
+	[TimeStamp] [datetime] NULL,
+	[CheckListID] [int] NULL
+) ON [PRIMARY]
+
+ALTER TABLE [dbo].[CheckListResponse] ADD  CONSTRAINT [DF_CheckListResponse_TimeStamp]  DEFAULT (getdate()) FOR [TimeStamp]
+
+
+/****** Object:  Table [dbo].[CheckListResponseNote]    Script Date: 3/10/2022 10:47:48 AM ******/
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[CheckListResponseNote](
+	[CheckListresponseNoteID] [int] IDENTITY(1,1) NOT NULL,
+	[CheckListGroupID] [int] NULL,
+	[Area] [nvarchar](255) NULL,
+	[Note] [nvarchar](max) NULL,
+	[Author] [nvarchar](255) NULL,
+	[TimeStamp] [datetime] NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+ALTER TABLE [dbo].[CheckListResponseNote] ADD  CONSTRAINT [DF_CheckListResponseNote_CheckListGroupID]  DEFAULT ((0)) FOR [CheckListGroupID]
+ALTER TABLE [dbo].[CheckListResponseNote] ADD  CONSTRAINT [DF_CheckListResponseNote_Area]  DEFAULT ('') FOR [Area]
+ALTER TABLE [dbo].[CheckListResponseNote] ADD  CONSTRAINT [DF_CheckListResponseNote_Note]  DEFAULT ('') FOR [Note]
+ALTER TABLE [dbo].[CheckListResponseNote] ADD  CONSTRAINT [DF_CheckListResponseNote_TimeStamp]  DEFAULT (getdate()) FOR [TimeStamp]
+
+/****** Object:  Table [dbo].[CheckListSnapShot]    Script Date: 3/10/2022 10:47:56 AM ******/
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[CheckListSnapShot](
+	[CheckListSnapShotID] [int] IDENTITY(1,1) NOT NULL,
+	[ItemID] [int] NULL,
+	[Value] [nvarchar](50) NULL,
+	[Area] [nvarchar](255) NULL,
+	[AuthUser] [nvarchar](255) NULL,
+	[TimeStamp] [datetime] NULL,
+	[CheckListID] [int] NULL
+) ON [PRIMARY]
+ALTER TABLE [dbo].[CheckListSnapShot] ADD  CONSTRAINT [DF_CheckListSnapShot_TimeStamp]  DEFAULT (getdate()) FOR [TimeStamp]
+
+/****** Object:  Table [dbo].[CheckListStage]    Script Date: 3/10/2022 10:48:04 AM ******/
+SET ANSI_NULLS ON
+
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[CheckListStage](
+	[CheckListStageID] [int] IDENTITY(1,1) NOT NULL,
+	[ChecklistID] [int] NULL,
+	[Stage] [nvarchar](255) NULL,
+	[StageOrder] [int] NOT NULL,
+	[Active] [bit] NOT NULL
+) ON [PRIMARY]
+ALTER TABLE [dbo].[CheckListStage] ADD  CONSTRAINT [DF_CheckListStage_StageOrder]  DEFAULT ((100)) FOR [StageOrder]
+ALTER TABLE [dbo].[CheckListStage] ADD  CONSTRAINT [DF_CheckListStage_Active]  DEFAULT ((1)) FOR [Active]|Tools|1|
+2|Survey|Create a Survey|CREATE TABLE [dbo].[Survey](
+	[SID] [int] IDENTITY(1,1) NOT NULL,
+	[Title] [nvarchar](150) NULL,
+	[Published] [bit] NOT NULL,
+	[PublishedOn] [datetime] NULL,
+	[Active] [bit] NOT NULL,
+	[Key] [nvarchar](50) NULL,
+	[Auth_User] [nvarchar](255) NULL
+) ON [PRIMARY]
+ALTER TABLE [dbo].[Survey] ADD  CONSTRAINT [DF_Survey_Published]  DEFAULT ((0)) FOR [Published]
+ALTER TABLE [dbo].[Survey] ADD  CONSTRAINT [DF_Survey_PublishedOn]  DEFAULT (getdate()) FOR [PublishedOn]
+ALTER TABLE [dbo].[Survey] ADD  CONSTRAINT [DF_Survey_Active]  DEFAULT ((0)) FOR [Active]
+ALTER TABLE [dbo].[Survey] ADD  CONSTRAINT [DF_Survey_Key]  DEFAULT (newid()) FOR [Key]
+
+/****** Object:  Table [dbo].[SurveyEGrid]    Script Date: 3/8/2022 4:23:06 PM ******/
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[SurveyEGrid](
+	[AID] [int] IDENTITY(1,1) NOT NULL,
+	[QID] [int] NULL,
+	[KPI] [nvarchar](125) NULL,
+	[Description] [nvarchar](1024) NULL,
+	[HowMeasured] [nvarchar](1024) NULL,
+	[Weight] [smallint] NULL,
+	[Auth_User] [nvarchar](255) NULL,
+	[1Guide] [nvarchar](1024) NULL,
+	[2Guide] [nvarchar](1024) NULL,
+	[3Guide] [nvarchar](1024) NULL,
+	[4Guide] [nvarchar](1024) NULL,
+	[5Guide] [nvarchar](1024) NULL,
+	[SID] [int] NULL
+) ON [PRIMARY]
+/****** Object:  Table [dbo].[SurveyEOption]    Script Date: 3/8/2022 4:22:38 PM ******/
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[SurveyEOption](
+	[AID] [int] IDENTITY(1,1) NOT NULL,
+	[QID] [int] NOT NULL,
+	[OptionA] [nvarchar](500) NULL,
+	[OptionB] [nvarchar](500) NULL,
+	[OptionC] [nvarchar](500) NULL,
+	[OptionD] [nvarchar](500) NULL,
+	[OptionE] [nvarchar](500) NULL,
+	[Other] [bit] NOT NULL,
+	[Auth_User] [nvarchar](255) NULL,
+	[SID] [int] NULL
+) ON [PRIMARY]
+/****** Object:  Table [dbo].[SurveyEQuestion]    Script Date: 3/8/2022 4:23:41 PM ******/
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[SurveyEQuestion](
+	[QID] [int] IDENTITY(1,1) NOT NULL,
+	[QRef] [nvarchar](255) NULL,
+	[Question] [nvarchar](255) NULL,
+	[Qorder] [int] NULL,
+	[Active] [bit] NOT NULL,
+	[Type] [nvarchar](50) NULL,
+	[QLabel] [nvarchar](255) NULL,
+	[SID] [int] NULL,
+	[Auth_User] [nvarchar](255) NULL
+) ON [PRIMARY]
+ALTER TABLE [dbo].[SurveyEQuestion] ADD  CONSTRAINT [DF_SurveyEQuestion_Active]  DEFAULT ((1)) FOR [Active]
+/****** Object:  Table [dbo].[SurveyEScalar]    Script Date: 3/8/2022 4:24:04 PM ******/
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[SurveyEScalar](
+	[AID] [int] IDENTITY(1,1) NOT NULL,
+	[QID] [int] NULL,
+	[LeftLabel] [nvarchar](50) NULL,
+	[RightLabel] [nvarchar](50) NULL,
+	[Range] [smallint] NULL,
+	[NA] [bit] NOT NULL,
+	[Auth_User] [nvarchar](255) NULL,
+	[SID] [int] NULL
+) ON [PRIMARY]
+ALTER TABLE [dbo].[SurveyEScalar] ADD  CONSTRAINT [DF_SurveyEScalar_NA]  DEFAULT ((0)) FOR [NA]
+
+/****** Object:  Table [dbo].[SurveyEText]    Script Date: 3/8/2022 4:24:32 PM ******/
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[SurveyEText](
+	[AID] [int] IDENTITY(1,1) NOT NULL,
+	[QID] [int] NULL,
+	[Rows] [smallint] NULL,
+	[Cols] [smallint] NULL,
+	[Auth_User] [nvarchar](255) NULL,
+	[SID] [int] NULL
+) ON [PRIMARY]
+/****** Object:  Table [dbo].[SurveyPGrid]    Script Date: 3/8/2022 4:24:58 PM ******/
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[SurveyPGrid](
+	[AID] [int] IDENTITY(1,1) NOT NULL,
+	[QID] [int] NULL,
+	[KPI] [nvarchar](125) NULL,
+	[Description] [nvarchar](1024) NULL,
+	[HowMeasured] [nvarchar](1024) NULL,
+	[Weight] [smallint] NULL,
+	[1Guide] [nvarchar](1024) NULL,
+	[2Guide] [nvarchar](1024) NULL,
+	[3Guide] [nvarchar](1024) NULL,
+	[4Guide] [nvarchar](1024) NULL,
+	[5Guide] [nvarchar](1024) NULL,
+	[SID] [int] NULL,
+	[PlaceHolderText] [nvarchar](1024) NULL,
+	[Readonly] [bit] NULL
+) ON [PRIMARY]
+ALTER TABLE [dbo].[SurveyPGrid] ADD  CONSTRAINT [DF_SurveyPGrid_Readonly]  DEFAULT ((0)) FOR [Readonly]
+/****** Object:  Table [dbo].[SurveyPOption]    Script Date: 3/8/2022 4:25:21 PM ******/
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[SurveyPOption](
+	[AID] [int] NOT NULL,
+	[QID] [int] NOT NULL,
+	[OptionA] [nvarchar](500) NULL,
+	[OptionB] [nvarchar](500) NULL,
+	[OptionC] [nvarchar](500) NULL,
+	[OptionD] [nvarchar](500) NULL,
+	[OptionE] [nvarchar](500) NULL,
+	[Other] [bit] NOT NULL,
+	[SID] [int] NULL
+) ON [PRIMARY]
+/****** Object:  Table [dbo].[SurveyPQuestion]    Script Date: 3/8/2022 4:25:43 PM ******/
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[SurveyPQuestion](
+	[QID] [int] NOT NULL,
+	[QRef] [nvarchar](255) NULL,
+	[Question] [nvarchar](255) NULL,
+	[Qorder] [int] NULL,
+	[Active] [bit] NOT NULL,
+	[Type] [nvarchar](50) NULL,
+	[QLabel] [nvarchar](255) NULL,
+	[SID] [int] NULL
+) ON [PRIMARY]
+/****** Object:  Table [dbo].[SurveyPScalar]    Script Date: 3/8/2022 4:26:10 PM ******/
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[SurveyPScalar](
+	[AID] [int] NOT NULL,
+	[QID] [int] NULL,
+	[LeftLabel] [nvarchar](50) NULL,
+	[RightLabel] [nvarchar](50) NULL,
+	[Range] [smallint] NULL,
+	[NA] [bit] NOT NULL,
+	[SID] [int] NULL
+) ON [PRIMARY]
+/****** Object:  Table [dbo].[SurveyPText]    Script Date: 3/8/2022 4:26:49 PM ******/
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[SurveyPText](
+	[AID] [int] NOT NULL,
+	[QID] [int] NULL,
+	[Rows] [smallint] NULL,
+	[Cols] [smallint] NULL,
+	[SID] [int] NULL
+) ON [PRIMARY]
+/****** Object:  Table [dbo].[SurveyResponse]    Script Date: 3/8/2022 4:27:07 PM ******/
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[SurveyResponse](
+	[RID] [int] IDENTITY(1,1) NOT NULL,
+	[USER_AUTH] [nvarchar](255) NULL,
+	[Date] [date] NOT NULL,
+	[DateTime] [datetime] NOT NULL,
+	[AssetID] [nvarchar](255) NULL,
+	[BArea] [nvarchar](255) NULL,
+	[ChannelID] [int] NULL,
+	[SID] [int] NULL
+) ON [PRIMARY]
+ALTER TABLE [dbo].[SurveyResponse] ADD  CONSTRAINT [DF_SurveyResponse_Date]  DEFAULT (getdate()) FOR [Date]
+ALTER TABLE [dbo].[SurveyResponse] ADD  CONSTRAINT [DF_SurveyResponse_DateTime]  DEFAULT (getdate()) FOR [DateTime]
+/****** Object:  Table [dbo].[SurveyResponseAnswers]    Script Date: 3/8/2022 4:27:23 PM ******/
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+CREATE TABLE [dbo].[SurveyResponseAnswers](
+	[RAID] [int] IDENTITY(1,1) NOT NULL,
+	[RID] [int] NOT NULL,
+	[QID] [int] NULL,
+	[Value] [nvarchar](3000) NULL,
+	[Other] [nvarchar](500) NULL
+) ON [PRIMARY]
+|Tools||
+3|Site Readiness Dashboard|Create Site Readiness.  SELECT Site, the dashboard will then supply assets, deployed, readiness and blokcer apps.|
+declare @DashboardID as int
+
+
+insert [ARM_CORE]..[A_Dashboard] ( 
+
+[Name] , [Reference] 
+, [Display] 
+, [Order] 
+, [AnonHome] 
+, [AdminHome] 
+, [ContextSQL] 
+, [ContextDefault] 
+, [AclProtected] 
+, [DefaultParams] 
+
+) values ( 
+'Site Readiness', 'Readiness', 1, 1000, 0, 1, NULL, '', 0, NULL)
+
+
+
+
+set @DashboardID = @@IDENTITY
+
+
+insert [ARM_CORE]..[A_DashboardItem] ( 
+
+[DashBoardID] , [ItemType] 
+, [ItemID] 
+, [Order] 
+, [Active] 
+, [Units] 
+, [Height] 
+, [Level] 
+
+) values ( 
+
+@DashBoardID, 'RETURN', NULL, 1000, 0, '4', 0, 0)
+
+
+
+insert [ARM_CORE]..[A_DashboardItem] ( 
+
+[DashBoardID] , [ItemType] 
+, [ItemID] 
+, [Order] 
+, [Active] 
+, [Units] 
+, [Height] 
+, [Level] 
+
+) values ( 
+
+@DashBoardID, 'RETURN', NULL, 80, 1, '4', 0, 0)
+
+
+
+insert [ARM_CORE]..[A_DashboardItem] ( 
+
+[DashBoardID] , [ItemType] 
+, [ItemID] 
+, [Order] 
+, [Active] 
+, [Units] 
+, [Height] 
+, [Level] 
+
+) values ( 
+
+@DashBoardID, 'RETURN', NULL, 120, 1, '4', 0, 0)
+
+
+
+insert [ARM_CORE]..[Chart] (
+
+[ChartTitle], [Units]
+, [Type]
+, [Data]
+, [Options]
+, [SQL]
+, [Description]
+, [URL]
+, [Active]
+, [Order]
+, [EventHandler]
+, [ShowTotal]
+, [Transpose]
+, [Prerequisite]
+, [NotSetMarkers]
+, [FieldStyles]
+
+) values (
+' Burndown', '4', 'LineChart', '', ' legend: { position: ''bottom'' }, 
+height: 400,', 'EXEC [ARM_CORE]..[ReportData-Pivot] ''{M_REPORTLIST}''', '', '', 0, 0, '', 0, 0, 'M_REPORTLIST', '', '')
+
+
+
+declare @Item1 as int;
+set @item1 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'Chart', @item1, 1000, 0, '12', 0)
+
+insert [ARM_CORE]..[Chart] (
+
+[ChartTitle], [Units]
+, [Type]
+, [Data]
+, [Options]
+, [SQL]
+, [Description]
+, [URL]
+, [Active]
+, [Order]
+, [EventHandler]
+, [ShowTotal]
+, [Transpose]
+, [Prerequisite]
+, [NotSetMarkers]
+, [FieldStyles]
+
+) values (
+'Release Profile (By Install Count)', '4', 'Table', '', 'showRowNumber: false, width: ''100%'', height: ''100%'', page:''enable'', pageSize: 10', 'EXEC [Assets-RELEASE-BArea] ''{CONTEXT}{WILD}'', 10', '', '', 0, 0, '', 0, 0, '', '', '')
+
+
+
+declare @Item2 as int;
+set @item2 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'Chart', @item2, 1000, 0, '4', 0)
+
+insert [ARM_CORE]..[Chart] (
+
+[ChartTitle], [Units]
+, [Type]
+, [Data]
+, [Options]
+, [SQL]
+, [Description]
+, [URL]
+, [Active]
+, [Order]
+, [EventHandler]
+, [ShowTotal]
+, [Transpose]
+, [Prerequisite]
+, [NotSetMarkers]
+, [FieldStyles]
+
+) values (
+'{F_TYPE} Blocker Applications ', '4', 'Table', '', 'showRowNumber: false, width: ''100%'', height: ''100%'', page:''enable'', pageSize: 10', 'EXEC [Apps-RELEASE-CID] {F_SITE},30', '', '/views/Default.asp?VREF=CollectionToBeApps&CID={F_SITE}&_bitFilterIDs=68&_bitFilterTable68=Application&_bitFilterField68=BitStatus&_bitLogic68=OR&_bit68=16', 0, 0, '/Admin/ApplicationTab.asp?ID={0}', 0, 0, 'F_SITE', 'F_TYPE', '')
+
+
+
+declare @Item3 as int;
+set @item3 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'Chart', @item3, 110, 1, '6', 0)
+
+insert [ARM_CORE]..[Chart] (
+
+[ChartTitle], [Units]
+, [Type]
+, [Data]
+, [Options]
+, [SQL]
+, [Description]
+, [URL]
+, [Active]
+, [Order]
+, [EventHandler]
+, [ShowTotal]
+, [Transpose]
+, [Prerequisite]
+, [NotSetMarkers]
+, [FieldStyles]
+
+) values (
+'Model Counts', '4', 'Table', '', 'showRowNumber: false, width: ''100%'', height: ''100%'', page:''enable'', pageSize: 6,', 'SELECT distinct a.[Model], count(a.AssetID) as [Count] from [ARM_CORE]..[A_CollectionItem] i
+LEFT JOIN [ARM_CORE]..[Asset] a on a.AssetID = i.ItemID 
+where i.CollectionID = {F_SITE} and dbo.[CheckBitStatus](a.BitStatus,''Deployment'',''Deployed'')=0 and a.[Type] = ''{F_TYPE}'' 
+group by a.[Model] order by [Count] desc, [Model] ', '', '', 0, 0, '', 1, 0, 'F_SITE,F_TYPE', '', '')
+
+
+
+declare @Item4 as int;
+set @item4 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'Chart', @item4, 1000, 0, '3', 0)
+
+insert [ARM_CORE]..[Chart] (
+
+[ChartTitle], [Units]
+, [Type]
+, [Data]
+, [Options]
+, [SQL]
+, [Description]
+, [URL]
+, [Active]
+, [Order]
+, [EventHandler]
+, [ShowTotal]
+, [Transpose]
+, [Prerequisite]
+, [NotSetMarkers]
+, [FieldStyles]
+
+) values (
+'Deployment Status', '4', 'PieChart', '', 'sliceVisibilityThreshold: .2,
+pieSliceText: ''label'',
+chartArea:{width:''90%'',height:''85%''}', 'SELECT c.Name, count(i.itemID) from [ARM_CORE]..[Workstream] w   
+		LEFT JOIN [ARM_CORE]..[A_Collection] c on c.CollectionClassID = w.KeyStatusID 
+		LEFT JOIN [ARM_CORE]..[A_CollectionItem] i on i.CollectionID = c.CollectionID 
+		where w.workstreamID = 2 group by c.[Order], c.[name] order by c.[order]', '', '', 0, 0, '', 1, 0, NULL, NULL, NULL)
+
+
+
+declare @Item5 as int;
+set @item5 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'Chart', @item5, 1000, 0, '3', 0)
+
+insert [ARM_CORE]..[Chart] (
+
+[ChartTitle], [Units]
+, [Type]
+, [Data]
+, [Options]
+, [SQL]
+, [Description]
+, [URL]
+, [Active]
+, [Order]
+, [EventHandler]
+, [ShowTotal]
+, [Transpose]
+, [Prerequisite]
+, [NotSetMarkers]
+, [FieldStyles]
+
+) values (
+'In Scope Assets', '4', 'BarChart', '', 'height: 200,
+legend: { position: ''top'', maxLines: 3 },
+bar: { groupWidth: ''75%'' },
+isStacked: true,
+colors: [''green'',''#f9a507''],', 'SELECT  distinct CASE when READY.[Rebuild] = 1  then ''Rebuild'' else ''Replace'' end as [Assets In Scope], Sum(READY.Ready) as [Ready], Count(AssetID) - Sum(READY.Ready) as [NOT Ready]
+from (
+		SELECT distinct t.AssetID 
+			, case when i.ItemID IS NULL then 0 else 1 end as [rebuild]
+			, case when dbo.[CheckBitStatus](t.BitStatus,''Readiness'',''ACE2 Ready'') !=0 then 1 else 0 end as [Ready]
+	 	from ARM_CORE..[A_CollectionItem] i
+		LEFT JOIN [ARM_CORE]..[Asset] t  on t.AssetID = i.ItemID
+		where i.CollectionID = {F_SITE}  and t.[Type] = ''{F_TYPE}'' 
+    and dbo.[CheckBitStatus](t.BitStatus,''Deployment'',''Deployed'')=0	
+) READY 
+group by [READY].[Rebuild]', '', '', 0, 0, '', 0, 0, 'F_SITE,F_TYPE', '', '')
+
+
+
+declare @Item6 as int;
+set @item6 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'Chart', @item6, 1000, 0, '3', 0)
+
+insert [ARM_CORE]..[Chart] (
+
+[ChartTitle], [Units]
+, [Type]
+, [Data]
+, [Options]
+, [SQL]
+, [Description]
+, [URL]
+, [Active]
+, [Order]
+, [EventHandler]
+, [ShowTotal]
+, [Transpose]
+, [Prerequisite]
+, [NotSetMarkers]
+, [FieldStyles]
+
+) values (
+'Ready Count (Replacement Only)', '4', 'BarChart', '', 'height: 200,
+legend: { position: ''top'', maxLines: 3 },
+bar: { groupWidth: ''75%'' },
+isStacked: true,
+series: {
+    0:{color:''green''},
+    1:{color:''#f9a507''},
+    2:{color:''#888''},
+    3:{color:''#AAA''},
+    4:{color:''#EEE''}
+  }', 'SELECT ''Assets'', [INFO].[READY], ([INFO].[Total] - [INFO].[READY]) as [NOT Ready] from 
+(
+SELECT  count(x.AssetID) as [Total] ,
+	( 
+	SELECT Count(x.AssetID) AS [READY] from ( 
+		SELECT distinct t.AssetID ,   
+	 		(SELECT Count(f.[ApplicationID]) from [ARM_CORE]..[AppAstToBe] f LEFT JOIN [ARM_CORE]..[Application] g ON g.[ApplicationID] = f.[ApplicationID] LEFT JOIN [ARM_CORE]..[A_Lookup] lu ON lu.[Lookup] = g.[Status] and lu.[Table] = ''Internal''  where f.AssetID = t.AssetID and IsNull(g.DeployType,''-'') <> ''B'' and IsNull(lu.[Label],''*'') <> ''R'' and IsNull(lu.[Label],''*'') <> ''B'' and IsNull(lu.[Label],''*'') <> ''X''  ) As Apps,   
+	 		(SELECT Count(f.[ApplicationID]) from [ARM_CORE]..[AppAstToBe] f LEFT JOIN [ARM_CORE]..[Application] g ON g.[ApplicationID] = f.[ApplicationID] LEFT JOIN [ARM_CORE]..[A_Lookup] lu ON lu.[Lookup] = g.[Status] and lu.[Table] = ''Internal''  where f.AssetID = t.AssetID and IsNull(g.DeployType,''-'') <> ''B'' and IsNull(lu.[Label],''*'') <> ''R'' and IsNull(lu.[Label],''*'') <> ''B'' and IsNull(lu.[Label],''*'') <> ''X''  and (g.[Ready] = 1 or g.[WhatIf] = 1) ) As ReadyApps  
+	 		from [ARM_CORE]..[Asset] t  
+			LEFT JOIN [ARM_CORE]..[BAREA] d on d.BArea = t.BArea  
+			where d.BArea = ''{CONTEXT}'' and t.Live = 1 and  NOT t.Model in (''X270'',''X280'')
+		 ) As x 
+		 where x.Apps = x.ReadyApps
+	) as [READY]
+from [ARM_CORE]..[Asset] x 
+where x.Live = 1 and x.BArea = ''{CONTEXT}''  and NOT x.Model in (''X270'',''X280'')
+) as INFO ', 'Based on all applications targeted for each asset that is to be replaced being ready.', '', 1, 0, '', 1, 0, NULL, NULL, NULL)
+
+
+
+declare @Item7 as int;
+set @item7 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'Chart', @item7, 1000, 0, '4', 0)
+
+insert [ARM_CORE]..[Chart] (
+
+[ChartTitle], [Units]
+, [Type]
+, [Data]
+, [Options]
+, [SQL]
+, [Description]
+, [URL]
+, [Active]
+, [Order]
+, [EventHandler]
+, [ShowTotal]
+, [Transpose]
+, [Prerequisite]
+, [NotSetMarkers]
+, [FieldStyles]
+
+) values (
+'Not yet Deployed', '4', 'Table', '', 'showRowNumber: false, width: ''100%'', height: ''100%'', page:''enable'', pageSize: 10', 'SELECT * from (
+SELECT UserID, Owner, BusinessUnit
+	, case 
+		when NOT DeployDate IS NULL THEN ''DEPLOYED'' 
+		when IsNull( run.[Status],'''') <> '''' then run.[Status]
+		when IsNull( run.[Status],''-'' ) = '''' then run.CName
+		when (Len(data.[LastLoggedInUser]) = 8 Or Len(data.[LastLoggedInUser]) = 9) and data.[LastLoggedInUser] = data.userID THEN ''DEPLOYED (*)'' 
+		else (SELECT top 1 c.Name + '' ('' + cast(datediff(day,i.TaggedOn,getdate()) as nvarchar(5)) + '')'' from [ARM_CORE]..[A_Collection] c LEFT JOIN [ARM_CORE]..[A_CollectionItem] i on i.CollectionID = c.CollectionID where c.CollectionClassID = 21 and i.itemID = data.AssetID order by i.TaggedOn desc)
+
+	end as STATUS
+	, email, UserHeartbeat, data.AssetID, data.Model, heartbeat, Live
+from (
+	SELECT y.*, z.AssetID as [NewAssetID], z.Model as [newModel], z.[heartbeat] as [NewHeartbeat] ,
+			(SELECT TOP 1 [RunDate] FROM [ARM_CORE].[dbo].[A_DeploymentLog] where Event = ''Deployed'' and AssetID like z.UserID + ''%'' order by [RunDate] Desc) as DeployDate, 
+			(SELECT TOP 1 [LastLoggedInUser] FROM [ARM_CUSTOM].[dbo].[TMP_Asset] where AssetID = z.AssetID ) as [LastLoggedInUser] 
+	from (
+		SELECT u.UserID, a.Owner, u.BusinessUnit, u.email, u.heartbeat as UserHeartbeat, a.AssetID, a.Model, a.heartbeat, a.Live, row_number() OVER ( PARTITION BY a.[UserID] ORDER BY a.[UserID], a.heartbeat DESC) AS dc
+		from [ARM_CORE]..[User] u
+		LEFT JOIN [ARM_CORE]..[Asset] a on a.UserID = u.UserID
+		Left JOIN [ARM_CORE]..[ScheduleDeployRunAsset] r on r.AssetID = a.AssetID 
+		where (u.BusinessUnit like ''{CONTEXT}%'' or a.BArea like ''{CONTEXT}%'') and a.BuildCode = ''2'' and IsNull(u.Live,0) = 1
+	) y 
+	LEFT JOIN [ARM_CORE]..[Asset] z on z.UserID = y.UserID and z.BuildCode = ''3''
+	where y.dc = 1  
+) as data
+LEFT JOIN (
+	SELECT r.[AssetID], r.[Status], c.Name as CName, row_number() OVER ( PARTITION BY r.[AssetID] ORDER BY r.AssetID, d.RunDate DESC) AS dc
+	from [ARM_CORE]..[ScheduleDeployRunAsset] r 
+	LEFT JOIN [ARM_CORE]..[ScheduleDeployRun] d on d.RunID = r.RunID 
+	LEFT JOIN [ARM_CORE]..[ScheduleChannel] c on c.ChannelID = d.ChannelID
+	where c.WorkstreamID = 5 
+) as Run on  Run.Assetid = data.AssetID and Run.dc = 1
+) info
+where NOT info.Status like ''%Deployed%'' Order by info.status , info.Owner', '', '/views/default.asp?ID=145&CONTEXT={CONTEXT}', 0, 0, '', 0, 0, '', '', NULL)
+
+
+
+declare @Item8 as int;
+set @item8 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'Chart', @item8, 1000, 0, '12', 0)
+
+insert [ARM_CORE]..[Chart] (
+
+[ChartTitle], [Units]
+, [Type]
+, [Data]
+, [Options]
+, [SQL]
+, [Description]
+, [URL]
+, [Active]
+, [Order]
+, [EventHandler]
+, [ShowTotal]
+, [Transpose]
+, [Prerequisite]
+, [NotSetMarkers]
+, [FieldStyles]
+
+) values (
+'Assets by Deployment Area (In Scope)', '4', 'BarChart', '', '        height: 200,
+legend: { position: ''top'', maxLines: 3 },
+        bar: { groupWidth: ''75%'' },
+        isStacked: true,
+colors: [''#13636b'',''#a4adb2''],
+', 'SELECT   x.[type], count(x.AssetID) as [Total] 
+from [ARM_CORE]..[A_CollectionItem] i 
+LEFT JOIN [ARM_CORE]..[Asset] x on x.AssetID = i.ItemID
+where i.CollectionID = {F_SITE} and x.Live = 1
+and dbo.[CheckBitStatus](x.BitStatus,''Deployment'',''Deployed'')=0
+group by x.[Type]', '', '', 1, 0, '', 0, 0, 'F_SITE', '', '')
+
+
+
+declare @Item9 as int;
+set @item9 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'Chart', @item9, 1000, 0, '3', 0)
+
+insert [ARM_CORE]..[Chart] (
+
+[ChartTitle], [Units]
+, [Type]
+, [Data]
+, [Options]
+, [SQL]
+, [Description]
+, [URL]
+, [Active]
+, [Order]
+, [EventHandler]
+, [ShowTotal]
+, [Transpose]
+, [Prerequisite]
+, [NotSetMarkers]
+, [FieldStyles]
+
+) values (
+'Model Counts', '4', 'Table', '', 'showRowNumber: false, width: ''100%'', height: ''100%'', page:''enable'', pageSize: 6,', 'SELECT distinct a.[Model], count(a.AssetID) as [Count] from [ARM_CORE]..[A_CollectionItem] i
+LEFT JOIN [ARM_CORE]..[Asset] a on a.AssetID = i.ItemID 
+where i.CollectionID = {F_SITE} and dbo.[CheckBitStatus](a.BitStatus,''Deployment'',''Deployed'')=0
+group by a.[Model] order by [Count] desc, [Model] ', '', '', 0, 0, '', 1, 0, 'F_SITE', 'F_TYPE', '')
+
+
+
+declare @Item10 as int;
+set @item10 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'Chart', @item10, 1000, 0, '3', 0)
+
+insert [ARM_CORE]..[Chart] (
+
+[ChartTitle], [Units]
+, [Type]
+, [Data]
+, [Options]
+, [SQL]
+, [Description]
+, [URL]
+, [Active]
+, [Order]
+, [EventHandler]
+, [ShowTotal]
+, [Transpose]
+, [Prerequisite]
+, [NotSetMarkers]
+, [FieldStyles]
+
+) values (
+'Release Profile (By Release Count)', '4', 'Table', '', 'showRowNumber: false, width: ''100%'', height: ''100%'', page:''enable'', pageSize: 10', 'EXEC [Assets-RELEASE-CID] {F_SITE}, 10, 1', '', '', 0, 0, '', 0, 0, 'F_SITE', 'F_TYPE', '')
+
+
+
+declare @Item11 as int;
+set @item11 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'Chart', @item11, 1000, 0, '3', 0)
+
+insert [ARM_CORE]..[Chart] (
+
+[ChartTitle], [Units]
+, [Type]
+, [Data]
+, [Options]
+, [SQL]
+, [Description]
+, [URL]
+, [Active]
+, [Order]
+, [EventHandler]
+, [ShowTotal]
+, [Transpose]
+, [Prerequisite]
+, [NotSetMarkers]
+, [FieldStyles]
+
+) values (
+'Review Console', '4', 'Table', '', 'width: ''100%'',
+allowHtml: true,', 'SELECT x.[Site], x.[For Review], x.[View] from (
+	SELECT g.[Site], count(g.ApplicationID) as [For Review] , sum(cast(IsNull(g.logged,0) as int)) as [Done], ''/review/ReviewApplication.asp?Site={SITENAME}'' as [View]
+	from [ARM_CORE]..[GoFish] g
+	LEFT JOIN [ARM_CORE]..[User] u on u.UserID = g.UserID
+	LEFT JOIN [ARM_CORE]..[s_ApplicationToBeInstallCount] s on s.ApplicationID = g.ApplicationID
+	where NOT g.userID like ''%USERID%'' and s.[Count] > 0
+	group by g.userID, u.UserName, g.[Site]
+) x where Site = ''{SITENAME}''', '', '', 1, 0, '', 0, 0, 'SITENAME', '', 'ReviewConsole')
+
+
+
+declare @Item12 as int;
+set @item12 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'Chart', @item12, 1000, 0, '3', 0)
+
+insert [ARM_CORE]..[Chart] (
+
+[ChartTitle], [Units]
+, [Type]
+, [Data]
+, [Options]
+, [SQL]
+, [Description]
+, [URL]
+, [Active]
+, [Order]
+, [EventHandler]
+, [ShowTotal]
+, [Transpose]
+, [Prerequisite]
+, [NotSetMarkers]
+, [FieldStyles]
+
+) values (
+'Ready Count (All Assets)', '4', 'BarChart', '', 'height: 200,
+legend: { position: ''top'', maxLines: 3 },
+bar: { groupWidth: ''75%'' },
+isStacked: true,
+colors: [''green'',''#f9a507''],', 'SELECT ''Assets'', [INFO].[READY], ([INFO].[Total] - [INFO].[READY]) as [NOT Ready] from 
+(
+SELECT  count(x.AssetID) as [Total] ,
+	( 
+	SELECT Count(x.AssetID) AS [READY] from ( 
+		SELECT distinct t.AssetID ,   
+	 		(SELECT Count(f.[ApplicationID]) from [ARM_CORE]..[AppAstToBe] f LEFT JOIN [ARM_CORE]..[Application] g ON g.[ApplicationID] = f.[ApplicationID] LEFT JOIN [ARM_CORE]..[A_Lookup] lu ON lu.[Lookup] = g.[Status] and lu.[Table] = ''Internal''  where f.AssetID = t.AssetID and IsNull(g.DeployType,''-'') <> ''B'' and IsNull(lu.[Label],''*'') <> ''R'' and IsNull(lu.[Label],''*'') <> ''B'' and IsNull(lu.[Label],''*'') <> ''X''  ) As Apps,   
+	 		(SELECT Count(f.[ApplicationID]) from [ARM_CORE]..[AppAstToBe] f LEFT JOIN [ARM_CORE]..[Application] g ON g.[ApplicationID] = f.[ApplicationID] LEFT JOIN [ARM_CORE]..[A_Lookup] lu ON lu.[Lookup] = g.[Status] and lu.[Table] = ''Internal''  where f.AssetID = t.AssetID and IsNull(g.DeployType,''-'') <> ''B'' and IsNull(lu.[Label],''*'') <> ''R'' and IsNull(lu.[Label],''*'') <> ''B'' and IsNull(lu.[Label],''*'') <> ''X''  and (g.[Ready] = 1 or g.[WhatIf] = 1) ) As ReadyApps  
+	 		from [ARM_CORE]..[Asset] t  
+			LEFT JOIN [ARM_CORE]..[BAREA] d on d.BArea = t.BArea  
+			where d.BArea = ''{CONTEXT}'' and t.Live = 1 
+		 ) As x 
+		 where x.Apps = x.ReadyApps
+	) as [READY]
+from [ARM_CORE]..[Asset] x 
+where x.Live = 1 and x.BArea = ''{CONTEXT}'' 
+) as INFO ', 'Based on applications readiness.', '', 1, 0, '/Admin/AssetList.asp?SearchTerm={CONTEXT}&ready=1&ShowReadiness=1', 1, 0, NULL, NULL, NULL)
+
+
+
+declare @Item13 as int;
+set @item13 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'Chart', @item13, 1000, 0, '4', 0)
+
+insert [ARM_CORE]..[Chart] (
+
+[ChartTitle], [Units]
+, [Type]
+, [Data]
+, [Options]
+, [SQL]
+, [Description]
+, [URL]
+, [Active]
+, [Order]
+, [EventHandler]
+, [ShowTotal]
+, [Transpose]
+, [Prerequisite]
+, [NotSetMarkers]
+, [FieldStyles]
+
+) values (
+'Readiness Criteria', '4', 'Table', '', 'width: ''100%'',
+allowHtml: true,
+', 'SELECT x.[Name], x.[State], Sum(x.[Total]), ''CID=''+cast([_CID] as nvarchar(12))+''&CID2=''+cast([_CID2] as nvarchar(12)) as [VIEW] from (
+	SELECT distinct c.Name, c.CollectionID as [_CID2],  case when c.CriteriaState = 1 then ''GO'' when c.CriteriaState = 0 then ''STOP'' else ''RESULT'' end as [State], 0 as [Total], c.[Order], ''{F_SITE}'' as [_CID]
+		from [ARM_CORE]..[A_Collection] c with(nolock) LEFT JOIN [ARM_CORE]..[A_CollectionClass] cc with(nolock) on cc.CollectionClassID = c.CollectionClassID
+		where cc.CLASSREF = ''ReadinessCriteria''
+	UNION 
+		SELECT c.Name,  c.CollectionID as [_CID2], case when c.CriteriaState = 1 then ''GO'' when c.CriteriaState = 0 then ''STOP'' else ''RESULT'' end as [State], Count(i.ItemID) as [Total], c.[Order], ''{F_SITE}'' as [_CID]
+		from [ARM_CORE]..[A_Collection] c with(nolock)
+		LEFT JOIN [ARM_CORE]..[A_CollectionClass] cc with(nolock) on cc.CollectionClassID = c.CollectionClassID
+		LEFT JOIN [ARM_CORE]..[A_CollectionItem] i with(nolock) on i.CollectionID = c.CollectionID 
+		LEFT JOIN [ARM_CORE]..[Asset] a with(nolock) on a.AssetID = i.ItemID
+		LEFT JOIN [ARM_CORE]..[A_CollectionItem] z with(nolock) on z.ItemID = i.ItemID
+		where cc.CLASSREF = ''ReadinessCriteria'' and z.CollectionID = {F_SITE}
+			and dbo.[CheckBitStatus](a.BitStatus,''Deployment'',''Deployed'')=0
+			and a.Live = 1
+			and a.BuildNumber = ''7601'' 
+		group by c.Name, c.CriteriaState, c.[Order], c.CollectionID  
+	UNION
+		SELECT ''Deployed'', 108, ''DONE'', 0, 5000, ''{M_SITE}'' as [_CID]
+	UNION
+  SELECT ''Deployed'' as [Name], i.CollectionID, ''DONE'', count(i.ItemID) as [Total], 5000, ''{M_SITE}'' as [_CID] from [ARM_CORE]..[A_CollectionItem] i with(nolock)
+		LEFT JOIN [ARM_CORE]..[Asset] a with(nolock) on a.AssetID = i.ItemID
+		LEFT JOIN [ARM_CORE]..[A_CollectionItem] z with(nolock) on z.ItemID = i.ItemID and z.CollectionID = {M_SITE}
+		where i.CollectionID = 108 and NOT z.ItemID IS NULL group by i.CollectionID
+) x
+group by  x.[Name], x.[_CID], x.[_CID2], x.[State], x.[Order] order by x.[Order]', '', '', 0, 0, '', 0, 0, 'F_SITE', 'F_TYPE', 'CHART,READINESS2')
+
+
+
+declare @Item14 as int;
+set @item14 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'Chart', @item14, 90, 1, '3', 0)
+
+insert [ARM_CORE]..[Chart] (
+
+[ChartTitle], [Units]
+, [Type]
+, [Data]
+, [Options]
+, [SQL]
+, [Description]
+, [URL]
+, [Active]
+, [Order]
+, [EventHandler]
+, [ShowTotal]
+, [Transpose]
+, [Prerequisite]
+, [NotSetMarkers]
+, [FieldStyles]
+
+) values (
+'Readiness CheckList Progress', '4', 'ColumnChart', '', 'legend: { position: "none" },
+hAxis: {slantedTextAngle: 90, slantedText: true },
+chartArea:{top:5,height:''30%''},
+vAxis: { title:"% Compelete"}
+', 'SELECT CL.GroupName as Section, (CL.Score * 100 / CL.Total) as [%_Complete] 
+from (
+   SELECT distinct g.[Name] as GroupName, g.[Order], Scores.Score, Scores.Total 
+   FROM [ARM_CORE]..[CheckListGroup] g  
+   LEFT JOIN [ARM_CORE].[dbo].[CheckList] c on c.CheckListID = g.CheckListID
+   LEFT JOIN ( 
+                              SELECT DISTINCT i.CheckListGroupID, Sum(ISNULL(o.Value, 0)) as Score, COUNT(i.CheckListItemID)*10 AS Total 
+                              FROM  dbo.CheckListItem AS i 
+                                             LEFT JOIN [ARM_CORE]..CheckListGroup AS g ON g.CheckListGroupID = i.CheckListGroupID 
+                                             LEFT JOIN [ARM_CORE]..CheckList AS c ON c.CheckListID = g.CheckListID  
+                                             LEFT JOIN [ARM_CORE]..CheckListResponse AS r ON r.ItemID = i.CheckListItemID and r.Area like ''{F_BAREA}{WILD}'' 
+                                             LEFT JOIN [ARM_CORE]..[CheckListOption] O on O.CheckListOptionID = r.[Value] 
+                              Group By i.CheckListGroupID 
+     ) as Scores on Scores.CheckListGroupID = g.CheckListgroupID 
+   where c.CheckListID = 1 
+) as CL Order by CL.[Order]', 'Allows for tracking towards deployment readiness ', '/CheckList/?Area={F_BAREAT}&DID=5', 0, 0, '', 0, 0, 'F_BAREA', '', '')
+
+
+
+declare @Item15 as int;
+set @item15 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'Chart', @item15, 1000, 0, '3', 0)
+
+insert [ARM_CORE]..[Chart] (
+
+[ChartTitle], [Units]
+, [Type]
+, [Data]
+, [Options]
+, [SQL]
+, [Description]
+, [URL]
+, [Active]
+, [Order]
+, [EventHandler]
+, [ShowTotal]
+, [Transpose]
+, [Prerequisite]
+, [NotSetMarkers]
+, [FieldStyles]
+
+) values (
+'In Scope Assets', '4', 'BarChart', '', 'height: 200,
+legend: { position: ''top'', maxLines: 3 },
+bar: { groupWidth: ''75%'' },
+isStacked: true,
+colors: [''green'',''#f9a507''],', 'SELECT  distinct CASE when READY.[Rebuild] = 1  then ''Rebuild'' else ''Replace'' end as [Assets In Scope], Sum(READY.Ready) as [Ready], Count(AssetID) - Sum(READY.Ready) as [NOT Ready]
+from (
+		SELECT distinct t.AssetID 
+			, case when i.ItemID IS NULL then 0 else 1 end as [rebuild]
+			, case when dbo.[CheckBitStatus](t.BitStatus,''Readiness'',''ACE2 Ready'') !=0 then 1 else 0 end as [Ready]
+	 	from ARM_CORE..[A_CollectionItem] i
+		LEFT JOIN [ARM_CORE]..[Asset] t  on t.AssetID = i.ItemID
+		where i.CollectionID = {F_SITE}  	
+    and dbo.[CheckBitStatus](t.BitStatus,''Deployment'',''Deployed'')=0	
+) READY 
+group by [READY].[Rebuild]', '', '', 1, 0, '', 0, 0, 'F_SITE', 'F_TYPE', '')
+
+
+
+declare @Item16 as int;
+set @item16 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'Chart', @item16, 1000, 0, '3', 0)
+
+insert [ARM_CORE]..[Chart] (
+
+[ChartTitle], [Units]
+, [Type]
+, [Data]
+, [Options]
+, [SQL]
+, [Description]
+, [URL]
+, [Active]
+, [Order]
+, [EventHandler]
+, [ShowTotal]
+, [Transpose]
+, [Prerequisite]
+, [NotSetMarkers]
+, [FieldStyles]
+
+) values (
+'Readiness Criteria', '4', 'Table', '', 'width: ''100%'',
+allowHtml: true,
+', 'SELECT x.[Name], x.[State], Sum(x.[Total]), cast([_CID] as nvarchar(12))+''&BAREA={F_BAREA}'' as [VIEW] from (
+	SELECT distinct c.Name, c.CollectionID as [_CID],  case when c.CriteriaState = 1 then ''GO'' when c.CriteriaState = 0 then ''STOP'' else ''RESULT'' end as [State], 0 as [Total], c.[Order]
+		from [ARM_CORE]..[A_Collection] c LEFT JOIN [ARM_CORE]..[A_CollectionClass] cc on cc.CollectionClassID = c.CollectionClassID
+		where cc.CLASSREF = ''ReadinessCriteria''
+	UNION 
+		SELECT c.Name,  c.CollectionID as [_CID], case when c.CriteriaState = 1 then ''GO'' when c.CriteriaState = 0 then ''STOP'' else ''RESULT'' end as [State], Count(i.ItemID) as [Total], c.[Order]
+		from [ARM_CORE]..[A_Collection] c LEFT JOIN [ARM_CORE]..[A_CollectionClass] cc on cc.CollectionClassID = c.CollectionClassID
+		LEFT JOIN [ARM_CORE]..[A_CollectionItem] i on i.CollectionID = c.CollectionID LEFT JOIN [ARM_CORE]..[Asset] a on a.AssetID = i.ItemID
+		LEFT JOIN [ARM_CORE]..[A_CollectionItem] z on z.ItemID = i.ItemID
+		where cc.CLASSREF = ''ReadinessCriteria'' and z.CollectionID = {F_SITE} and a.[Type] = ''{F_TYPE}'' and dbo.[CheckBitStatus](a.BitStatus,''Deployment'',''Deployed'')=0
+		group by c.Name, c.CriteriaState, c.[Order], c.CollectionID  
+	UNION
+		SELECT ''Deployed'', 108, ''DONE'', 0, 5000
+	UNION
+		SELECT ''Deployed'' as [Name], i.CollectionID, ''DONE'', count(i.ItemID) as [Total], 5000 from [ARM_CORE]..[A_CollectionItem] i
+		LEFT JOIN [ARM_CORE]..[Asset] a on a.AssetID = i.ItemID
+		LEFT JOIN [ARM_CORE]..[A_CollectionItem] z on z.ItemID = i.ItemID
+		where i.CollectionID = 108 and z.CollectionID = {M_SITE} and a.[Type] = ''{F_TYPE}''  and NOT IsNull(a.BuildNumber,'''') in (''17134'',''18363'',''19042'') group by i.CollectionID
+) x
+group by  x.[Name], x.[_CID], x.[State], x.[Order] order by x.[Order]', '', '', 0, 0, '', 0, 0, 'F_SITE,F_TYPE', '', 'COLLECTION,CHART')
+
+
+
+declare @Item17 as int;
+set @item17 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'Chart', @item17, 100, 1, '3', 0)
+
+insert [ARM_CORE]..[Chart] (
+
+[ChartTitle], [Units]
+, [Type]
+, [Data]
+, [Options]
+, [SQL]
+, [Description]
+, [URL]
+, [Active]
+, [Order]
+, [EventHandler]
+, [ShowTotal]
+, [Transpose]
+, [Prerequisite]
+, [NotSetMarkers]
+, [FieldStyles]
+
+) values (
+'Application Status', '4', 'Table', '', 'showRowNumber: false, width: ''100%'', height: ''100%'', page:''enable'', pageSize: 10', 'SELECT c.Name, Count(distinct i.ItemID) from [ARM_CORE]..[A_Collection] c 
+	LEFT JOIN [ARM_CORE]..[A_CollectionClass] cc on cc.CollectionClassID = c.CollectionClassID
+	LEFT JOIN [ARM_CORE]..[A_CollectionItem] i on i.CollectionID = c.CollectionID 
+	LEFT JOIN [ARM_CORE]..[Application] ap on ap.ApplicationID = i.ItemID
+	LEFT JOIN [ARM_CORE]..[AppAstToBe] b on b.ApplicationID = i.ItemID
+	LEFT JOIN [ARM_CORE]..[Asset] a on a.AssetID = b.AssetID
+	LEFT JOIN [ARM_CORE]..[A_CollectionItem] z on z.ItemID = a.AssetID 
+	where cc.CLASSREF = ''ApplicationReadiness'' and z.CollectionID = {F_SITE} and NOT z.ItemID IS NULL and ap.Ready = 0 and  IsNull(ap.DeployType,''-'') <> ''B''  
+and dbo.[CheckBitStatus](a.BitStatus,''Deployment'',''Deployed'')=0
+group by c.Name, c.[Order] order by c.[Order]', '', '', 0, 0, '', 1, 0, 'F_SITE', 'F_TYPE', '')
+
+
+
+declare @Item18 as int;
+set @item18 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'Chart', @item18, 1000, 0, '3', 0)
+
+insert [ARM_CORE]..[DashboardFilter] (
+
+[FilterTitle], [FilterSQL]
+, [Active]
+, [Marker]
+, [Prerequisite]
+, [NotSetMarkers]
+, [OnChangeClear]
+
+) values (
+'Type', 'SELECT distinct [Type] as [Option], [Type] as [Label] 
+from [ARM_CORE]..[A_CollectionItem] i 
+LEFT JOIN [ARM_CORE]..[Asset] a on a.AssetID = i.ItemID
+where i.CollectionID = {F_SITE} and NOT isNull(a.Type,'''') in ('''',''Phone'',''Printer'')', 1, 'F_TYPE', 'F_SITE', '', '')
+
+
+
+declare @Item19 as int;
+set @item19 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'DashboardFilter', @item19, 20, 1, '1', 0)
+
+insert [ARM_CORE]..[DashboardFilter] (
+
+[FilterTitle], [FilterSQL]
+, [Active]
+, [Marker]
+, [Prerequisite]
+, [NotSetMarkers]
+, [OnChangeClear]
+
+) values (
+'Site', 'SELECT distinct c.[Name] as [Label], c.CollectionID as [Option] from [ARM_CORE]..[A_Collection] c 
+where IsNull(c.EndState,0) <> 1 and c.CollectionClassID = 30 order by [Name] ', 1, 'F_SITE', '', '', 'F_TYPE')
+
+
+
+declare @Item20 as int;
+set @item20 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'DashboardFilter', @item20, 10, 1, '3', 0)
+
+insert [ARM_CORE]..[DashboardFilter] (
+
+[FilterTitle], [FilterSQL]
+, [Active]
+, [Marker]
+, [Prerequisite]
+, [NotSetMarkers]
+, [OnChangeClear]
+
+) values (
+'%', 'SELECT * FROM (
+	SELECT ''1'',''%'' 
+)  E([Option],[Label])', 1, 'B_WILD', '', '', '')
+
+
+
+declare @Item21 as int;
+set @item21 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'DashboardFilter', @item21, 1000, 0, '1', 0)
+
+insert [ARM_CORE]..[DashboardFilter] (
+
+[FilterTitle], [FilterSQL]
+, [Active]
+, [Marker]
+, [Prerequisite]
+, [NotSetMarkers]
+, [OnChangeClear]
+
+) values (
+'Test', 'SELECT distinct c.[Name] as [Label], c.CollectionID as [Option] from [ARM_CORE]..[A_Collection] c 
+where IsNull(c.EndState,0) <> 1 and c.CollectionClassID = 30 order by [Name] ', 0, 'F_TEST', '', '', '')
+
+
+
+declare @Item22 as int;
+set @item22 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'DashboardFilter', @item22, 1000, 0, '2', 0)
+
+insert [ARM_CORE]..[DashboardWidget] (
+
+[WidgetTitle], [WidgetSQL]
+, [Type]
+, [Prerequisite]
+, [NotSetMarkers]
+, [Icon]
+, [Condition]
+, [URL]
+, [Param1]
+, [Param2]
+
+) values (
+'Markers ', 'SELECT * FROM (
+   SELECT 304,355,''Site_C'',''Site_C-Actual,Site_C-Baseline1'' UNION ALL
+   SELECT 317,373,''Site_P'',''Site_P-Actual,Site_P-Baseline1'' UNION ALL
+   SELECT 309,371,''Site_H'',''Site_H-Actual,Site_-Baseline1'' UNION ALL
+   SELECT 315,363,''NMR'',''NMR-Actual,NMR-Baseline1'' UNION ALL
+   SELECT 281,366,''Site_A'',''Site_A-Actual,Site_A-Baseline1'' UNION ALL
+   SELECT 312,369,''NNE'',''NNE-Actual,NNE-Baseline1'' UNION ALL
+   SELECT 313,283,''NMGB'',''NMGB-Actual,NMGB-Baseline1'' UNION ALL   
+   SELECT 307,367,''NITA'',''NITA-Actual,NITA-Baseline1'' UNION ALL   
+   SELECT 314,361,''NCE'',''NCE-Actual,NCE-Baseline1'' UNION ALL    
+   SELECT 311,368,''SSC'',''SSC-Actual,SSC-Baseline1'' UNION ALL   
+   SELECT 303,357,''NMGR'',''NMGR-Actual,NMGR-Baseline1'' UNION ALL   
+   SELECT 310,375,''NBNV'',''NBNV-Actual,NBNV-Baseline1'' UNION ALL   
+   SELECT 306,374,''NOAS'',''NOAS-Actual,NOAS-Baseline1'' UNION ALL   
+   SELECT 319,377,''NKSA'',''NKSA-Actual,NKSA-Baseline1'' UNION ALL   
+   SELECT 316,376,''NMUKR'',''NMUKR-Actual,NMUKR-Baseline1'' UNION ALL   
+   SELECT 318,359,''NSA'',''NSA-Actual,NSA-Baseline1'' UNION ALL   
+   SELECT 323,362,''NMEF'',''NMEF-Actual,NMEF-Baseline1'' UNION ALL   
+   SELECT 322,364,''NMEG'',''NMEG-Actual,NMEG-Baseline1'' UNION ALL   
+   SELECT 321,356,''NMISA'',''NMISA-Actual,NMISA-Baseline1'' UNION ALL   
+   SELECT 328,378,''NISA'',''NISA-Actual,NISA-Baseline1'' UNION ALL   
+   SELECT 338,372,''NMGB - Lutterworth'',''NMGB - Lutterworth-Actual,NMGB - Lutterworth-Baseline1'' UNION ALL   
+   SELECT 320,360,''NAE and NFSA'',''NAE and NFSA-Actual,NAE and NFSA-Baseline1'' UNION ALL   
+   SELECT 308,358,''NTCE - C'',''NTCE - C-Actual,NTCE - C-Baseline1'' UNION ALL   
+   SELECT 305,370,''NDE - CEC'',''NDE - CEC-Actual,NDE - CEC-Baseline1'' UNION ALL            
+   SELECT 999,0,''NMUK'',''NMUK-Actual,NMUK-Baseline1'' 
+)
+E([_Site],[M_Site],[SITENAME],[M_REPORTLIST]) 
+where E.[_Site] = {F_SITE}', 'FIELD MARKER', 'F_SITE', '', 'fa-database', '', '', '', '')
+
+
+
+declare @Item23 as int;
+set @item23 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'DashboardWidget', @item23, 30, 1, '4', 0)
+
+insert [ARM_CORE]..[DashboardWidget] (
+
+[WidgetTitle], [WidgetSQL]
+, [Type]
+, [Prerequisite]
+, [NotSetMarkers]
+, [Icon]
+, [Condition]
+, [URL]
+, [Param1]
+, [Param2]
+
+) values (
+'DEBUG', '', 'DEBUG', '', '', '', '', '', '', '')
+
+
+
+declare @Item24 as int;
+set @item24 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'DashboardWidget', @item24, 1000, 0, '4', 0)
+
+insert [ARM_CORE]..[DashboardWidget] (
+
+[WidgetTitle], [WidgetSQL]
+, [Type]
+, [Prerequisite]
+, [NotSetMarkers]
+, [Icon]
+, [Condition]
+, [URL]
+, [Param1]
+, [Param2]
+
+) values (
+'', 'SELECT distinct count(a.AssetID) as [Value] from [ARM_CORE]..[A_CollectionItem] i with(nolock) 
+LEFT JOIN [ARM_CORE]..[Asset] a with(nolock) on a.AssetID = i.ItemID 
+where i.CollectionID = {F_SITE} 
+and dbo.[CheckBitStatus](a.BitStatus,''Readiness'',''ACE2 Ready'') != 0
+and dbo.[CheckBitStatus](a.BitStatus,''Deployment'',''Deployed'')=0
+and a.Live = 1
+and a.BuildNumber = ''7601''', 'VALUEBOX', 'F_SITE', 'F_TYPE', 'fa-check-square', '', '/views/Default.asp?VREF=AssetCollection&CID={F_SITE}&TITLE=Sites%20:%20{SITENAME}&_bitFilterIDs=80&_bitFilterTable80=Asset&_bitFilterField80=BitStatus&_bitLogic80=OR&_bit80=&_BitMask_Applications=50331648&_bitFilterIDs=104&_bitFilterTable104=Asset&_bitFilterField104=BitStatus&_bitLogic104=OR&_bit104=&_BitMask_Build=17042430230528&_bitFilterIDs=103&_bitFilterTable103=Asset&_bitFilterField103=BitStatus&_bitLogic103=OR&_bit103=&_BitMask_Deployment=12582912&_bitFilterIDs=1&_bitFilterTable1=Asset&_bitFilterField1=BitStatus&_bitLogic1=OR&_bit1=&_BitMask_Heartbeat=31&_bitFilterIDs=115&_bitFilterTable115=Asset&_bitFilterField115=BitStatus&_bitLogic115=OR&_bit115=128&_BitMask_Readiness=1049056&_bitFilterIDs=5&_bitFilterTable5=Asset&_bitFilterField5=BitStatus&_bitLogic5=OR&_bit5=&_BitMask_Type=1048064', '', '')
+
+
+
+declare @Item25 as int;
+set @item25 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'DashboardWidget', @item25, 60, 1, '2', 0)
+
+insert [ARM_CORE]..[DashboardWidget] (
+
+[WidgetTitle], [WidgetSQL]
+, [Type]
+, [Prerequisite]
+, [NotSetMarkers]
+, [Icon]
+, [Condition]
+, [URL]
+, [Param1]
+, [Param2]
+
+) values (
+'', 'SELECT count(i.ItemID) as [Value] from [ARM_CORE]..[A_CollectionItem] i with(nolock) LEFT JOIN [ARM_CORE]..[Asset] a with(nolock) on a.AssetID = i.ItemID 
+where i.CollectionID = {F_SITE} 
+and dbo.[CheckBitStatus](a.BitStatus,''Deployment'',''Deployed'')=0
+and a.Live = 1
+and a.BuildNumber = ''7601''', 'VALUEBOX', 'F_SITE', 'F_TYPE', 'fa-laptop', '', '/views/Default.asp?VREF=AssetCollection&CID={F_SITE}&TITLE=Sites%20:%20{SITENAME}&_bitFilterIDs=80&_bitFilterTable80=Asset&_bitFilterField80=BitStatus&_bitLogic80=OR&_bit80=&_BitMask_Applications=50331648&_bitFilterIDs=104&_bitFilterTable104=Asset&_bitFilterField104=BitStatus&_bitLogic104=OR&_bit104=&_BitMask_Build=17042430230528&_bitFilterIDs=103&_bitFilterTable103=Asset&_bitFilterField103=BitStatus&_bitLogic103=OR&_bit103=8388608&_BitMask_Deployment=12582912&_bitFilterIDs=1&_bitFilterTable1=Asset&_bitFilterField1=BitStatus&_bitLogic1=OR&_bit1=&_BitMask_Heartbeat=31&_bitFilterIDs=115&_bitFilterTable115=Asset&_bitFilterField115=BitStatus&_bitLogic115=OR&_bit115=&_BitMask_Readiness=1049056&_bitFilterIDs=5&_bitFilterTable5=Asset&_bitFilterField5=BitStatus&_bitLogic5=OR&_bit5=&_BitMask_Type=1048064', '', '')
+
+
+
+declare @Item26 as int;
+set @item26 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'DashboardWidget', @item26, 40, 1, '2', 0)
+
+insert [ARM_CORE]..[DashboardWidget] (
+
+[WidgetTitle], [WidgetSQL]
+, [Type]
+, [Prerequisite]
+, [NotSetMarkers]
+, [Icon]
+, [Condition]
+, [URL]
+, [Param1]
+, [Param2]
+
+) values (
+'', 'SELECT count(ItemID) as [Value] from [ARM_CORE]..[A_CollectionItem] i 
+LEFT JOIN [ARM_CORE]..[Asset] a on a.AssetID = i.ItemID where CollectionID = {F_SITE} and IsNull(a.[Type],'''') = ''{F_TYPE}''', 'VALUEBOX', 'F_SITE,F_TYPE', '', 'fa-laptop', '', '/views/?VREF=AssetCollection&CID={F_SITE}&TITLE=Sites%20:%20{SITENAME}', '', '')
+
+
+
+declare @Item27 as int;
+set @item27 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'DashboardWidget', @item27, 50, 1, '2', 0)
+
+insert [ARM_CORE]..[DashboardWidget] (
+
+[WidgetTitle], [WidgetSQL]
+, [Type]
+, [Prerequisite]
+, [NotSetMarkers]
+, [Icon]
+, [Condition]
+, [URL]
+, [Param1]
+, [Param2]
+
+) values (
+'', 'SELECT distinct count(t.AssetID) as [Value] from [ARM_CORE]..[A_CollectionItem] i
+LEFT JOIN [ARM_CORE]..[Asset] t on t.AssetID = i.ItemID 
+where i.CollectionID = {F_SITE} and dbo.[CheckBitStatus](t.BitStatus,''Readiness'',''ACE2 Ready'') != 0
+and dbo.[CheckBitStatus](t.BitStatus,''Deployment'',''Deployed'')=0
+and t.[Type] = ''{F_TYPE}''', 'VALUEBOX', 'F_SITE,F_TYPE', '', 'fa-check-square', '', '', '', '')
+
+
+
+declare @Item28 as int;
+set @item28 = @@IDENTITY;
+
+
+insert [ARM_CORE]..[A_DashboardItem] ([DashBoardID], [ItemType], [ItemID], [Order], [Active], [Units], [Height]) values (@DashBoardID, 'DashboardWidget', @item28, 70, 1, '2', 0)
+|Dashboard|1|
+4|Mailers|User collection for Steerco, Spocs, Proejct Team|       SET NOCOUNT ON;
+DECLARE @CCID INT;
+--DECLARE @CID_1 INT;  --Require if setting an A_CollectionAgent
+ 
+-- ALTER Collection Class for System supported Workstream Status.
+insert into [ARM_CORE]..[A_CollectionClass] ([Name],[Description],[Distinct],[Status],[UseCollectionColours],[ListView],[Tracker]) values ('User Groups','List of User Groups enabling emails.',0,1,1,1,0)
+Set @CCID = @@IDENTITY;
+ 
+-- ALTER System supported Workstream Status.
+insert into [ARM_CORE]..[A_Collection] ([Name],[Group],[Order],[Type],[Marker],[CollectionClassID],[Colour]) values ('SPOC','SPOC',10,'User',0,@CCID,'green')
+insert into [ARM_CORE]..[A_Collection] ([Name],[Group],[Order],[Type],[Marker],[CollectionClassID],[Colour]) values ('Steerco','Steerco',20,'User',0,@CCID,'blue')
+insert into [ARM_CORE]..[A_Collection] ([Name],[Group],[Order],[Type],[Marker],[CollectionClassID],[Colour]) values ('Project','Project',20,'User',0,@CCID,'Light Purple')
+--set @CID_1 = @@IDENTITY; --Require if setting an A_CollectionAgent|Collection|1|
+5|Create Demo Class Collection| |DECLARE @CollectionClassID INT, @collectionID INTINSERT INTO A_CollectionClass ( [Name], [Description], [Distinct], [Status], [WorkstreamID], [ViewActive], [CLASSREF], [UseCollectionColours], [Tracker], [CriteriaState], [CriteriaCollectionID], [DefaultCollectionID], [DefaultCollectionType]) VALUES('Demo Class','Used for start up and demo','1','0','0','1','','1','1','','0','0','ASSET')SET @collectionClassID = scope_identity()INSERT INTO A_Collection ( [Name], [Order], [Auth_User], [Visible], [Type], [Marker], [CollectionClassID], [Colour], [Locked], [Deployed], [EndState], [Group], [CREF], [CriteriaState], [x_Auto], [Ignore]) VALUES('Set 1','0','','1','ASSET','0',@CollectionClassID,'orange','0','0','0','','','','','')SET @collectionID = scope_identity()INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef]) VALUES('Scheduled Move',@collectionID,'0','20','','','','0','','Demo-Discovery','','Move Engage','','')INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef]) VALUES('Scheduled Mailer',@collectionID,'','10','','','','0','','','','Warning test','','')INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef]) VALUES('Scheduled Action',@collectionID,'','30','','Application-Test Complete','','0','','','','','','Action - Asset')INSERT INTO A_Collection ( [Name], [Order], [Auth_User], [Visible], [Type], [Marker], [CollectionClassID], [Colour], [Locked], [Deployed], [EndState], [Group], [CREF], [CriteriaState], [x_Auto], [Ignore]) VALUES('Set 2','10','','1','ASSET','0',@CollectionClassID,'green','0','0','0','','','','','')SET @collectionID = scope_identity()INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef]) VALUES('Scheduled Synchronise',@collectionID,'','','','','','0','','','','put me in B also','','')INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef]) VALUES('Immediate Synchronise',@collectionID,'','','1','','','0','','','','run me now','','')INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef]) VALUES('Scheduled Mailer',@collectionID,'0','10','','','','1','','','54','Tombstone warning 1 test','Failed to Run : Incorrect syntax near '')''. : Sep 30 2022  7:00AM','') IF (SELECT COUNT(*) FROM NotificationTemplate WHERE [label] = 'Tombstone Warning 1') > 0 INSERT INTO NotificationTemplate ( [Template], [Subject], [SendFrom], [ReplyTo], [CC], [Type], [Label], [BCC], [ReadReceipt], [Important], [Readonly], [ItemType], [templateThrottle], [Process], [DataSet]) VALUES('&lt;p&gt;&lt;span style="font-size:12px"&gt;&lt;span style="font-family:verdana,geneva,sans-serif"&gt;Hi {FIRSTNAME}&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;&#x0D;
+&#x0D;
+&lt;p&gt;&lt;span style="font-size:12px"&gt;&lt;span style="font-family:verdana,geneva,sans-serif"&gt;Your asset {ASSETID} ({TYPE},&amp;nbsp;{MODEL}) has not been seen on the Nissan network for 30 days.&amp;nbsp; This is a breach of Nissan&amp;#39;s&amp;nbsp;guidelines and is a security risk.&amp;nbsp; Please, at your earliest convenience, log this asset back onto the network.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;&#x0D;
+&#x0D;
+&lt;p&gt;&lt;span style="font-size:12px"&gt;&lt;span style="font-family:verdana,geneva,sans-serif"&gt;However, if any of the following apply&amp;nbsp;please inform the&amp;nbsp;Service Desk with this &lt;a href="https://nissannisaprod.service-now.com/nissan_it_service_management?id=sc_cat_item&amp;amp;sys_id=4e45e2ebdbcf8700382481cc0b961913"&gt;link&lt;/a&gt;&amp;nbsp;:&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;&#x0D;
+&#x0D;
+&lt;p&gt;&lt;span style="font-size:12px"&gt;&lt;span style="font-family:verdana,geneva,sans-serif"&gt;&amp;middot;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; You believe that this asset has been on the network recently&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;&#x0D;
+&#x0D;
+&lt;p&gt;&lt;span style="font-size:12px"&gt;&lt;span style="font-family:verdana,geneva,sans-serif"&gt;&amp;middot;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; You have a legitimate reason why this asset will continue to be off the network&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;&#x0D;
+&#x0D;
+&lt;p&gt;&lt;span style="font-size:12px"&gt;&lt;span style="font-family:verdana,geneva,sans-serif"&gt;&amp;middot;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; You are not the appropriate contact for this asset&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;&#x0D;
+&#x0D;
+&lt;p&gt;&lt;span style="font-size:12px"&gt;&lt;span style="font-family:verdana,geneva,sans-serif"&gt;Please do not ignore this email, if no action is taken then this asset will be removed from the network and will no longer function.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;&#x0D;
+&#x0D;
+&lt;p&gt;&lt;span style="font-size:12px"&gt;&lt;span style="font-family:verdana,geneva,sans-serif"&gt;Thanks&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;&#x0D;
+&#x0D;
+&lt;p&gt;{IMAGE:nissan_signature.png}&lt;/p&gt;&#x0D;
+&#x0D;
+&lt;hr /&gt;&#x0D;
+&lt;p&gt;&lt;span style="font-size:12px"&gt;&lt;span style="font-family:verdana,geneva,sans-serif"&gt;&lt;strong&gt;Asset Governance&lt;/strong&gt;&lt;/span&gt;&lt;/span&gt;&lt;br /&gt;&#x0D;
+&amp;nbsp;&lt;/p&gt;&#x0D;
+','Asset {ASSETID} not on the Network','asset.governance@nissan-europe.com','asset.governance@nissan-europe.com','','Tombstone','Tombstone Warning 1','','1','1','','Asset','0','Tombstone','10')INSERT INTO A_BitCondition ( [Attribute], [GroupName], [Order], [ConditionSQL], [BitPosition], [Table], [Field], [IdentityID], [Distinct], [Active], [ConditionClassID], [ConditionCID], [Pass]) VALUES('TEST','TEST','23','','23','Asset','BitStatus','AssetID','1','1','',@collectionID,'0')INSERT INTO A_Collection ( [Name], [Order], [Auth_User], [Visible], [Type], [Marker], [CollectionClassID], [Colour], [Locked], [Deployed], [EndState], [Group], [CREF], [CriteriaState], [x_Auto], [Ignore]) VALUES('set 3','200','','1','ASSET','1',@CollectionClassID,'primary','0','0','0','','','','0','')SET @collectionID = scope_identity()|Collection|1|
+16|Collection| |DECLARE @CollectionClassID INT, @collectionID INT, @DefaultCollectionID INT, @templateID INT, @eventID INT
+INSERT INTO A_CollectionClass ( [Name], [Description], [Distinct], [Status], [WorkstreamID], [ViewActive], [CLASSREF], [UseCollectionColours], [Tracker], [CriteriaState], [CriteriaCollectionID], [DefaultCollectionID], [DefaultCollectionType])
+ VALUES('Demo Class','Used for start up and demo','1','0','0','1','','1','1','','0','0','ASSET')
+SET @collectionClassID = scope_identity()
+INSERT INTO A_Collection ( [Name], [Order], [Auth_User], [Visible], [Type], [Marker], [CollectionClassID], [Colour], [Locked], [Deployed], [EndState], [Group], [CREF], [CriteriaState], [x_Auto], [Ignore])
+ VALUES('Set 1','0','','1','ASSET','0',@CollectionClassID,'orange','0','0','0','','','','','')
+SET @collectionID = scope_identity()
+SELECT @DefaultCollectionID = DefaultCollectionID FROM  A_CollectionClass where CollectionClassID = @collectionClassID
+						IF NOT EXISTS (SELECT * from A_Collection WHERE CollectionID = @DefaultCollectionID) UPDATE A_CollectionClass SET  DefaultCollectionID = @collectionID WHERE CollectionClassID = @collectionClassID
+						INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef])
+ VALUES('Scheduled Move',@collectionID,'0','20','','','','0','','Demo-Discovery','','Move Engage','','')
+INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef])
+ VALUES('Scheduled Mailer',@collectionID,'','10','','','','0','','','','Warning test','','')
+INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef])
+ VALUES('Scheduled Action',@collectionID,'','30','','Application-Test Complete','','0','','','','ss','','Action - Asset')
+INSERT INTO A_Collection ( [Name], [Order], [Auth_User], [Visible], [Type], [Marker], [CollectionClassID], [Colour], [Locked], [Deployed], [EndState], [Group], [CREF], [CriteriaState], [x_Auto], [Ignore])
+ VALUES('Set 2','10','','1','ASSET','0',@CollectionClassID,'green','0','0','0','','','','','')
+SET @collectionID = scope_identity()
+SELECT @DefaultCollectionID = DefaultCollectionID FROM  A_CollectionClass where CollectionClassID = @collectionClassID
+						IF NOT EXISTS (SELECT * from A_Collection WHERE CollectionID = @DefaultCollectionID) UPDATE A_CollectionClass SET  DefaultCollectionID = @collectionID WHERE CollectionClassID = @collectionClassID
+						INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef])
+ VALUES('Scheduled Synchronise',@collectionID,'','','','','','0','','','','put me in B also','','')
+INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef])
+ VALUES('Immediate Synchronise',@collectionID,'','','1','','','0','','','','run me now','','')
+INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef])
+ VALUES('Scheduled Mailer',@collectionID,'0','10','','','','1','','','54','Tombstone warning 1 test','Failed to Run : Incorrect syntax near '')''. : Sep 30 2022  7:00AM','')
+ IF (SELECT COUNT(*) FROM NotificationTemplate WHERE [label] = 'Tombstone Warning 1') = 0 INSERT INTO NotificationTemplate ( [Template], [Subject], [SendFrom], [ReplyTo], [CC], [Type], [Label], [BCC], [ReadReceipt], [Important], [Readonly], [ItemType], [templateThrottle], [Process], [DataSet])
+ VALUES('<p><span style="font-size:12px"><span style="font-family:verdana,geneva,sans-serif">Hi {FIRSTNAME}</span></span></p>
+
+<p><span style="font-size:12px"><span style="font-family:verdana,geneva,sans-serif">Your asset {ASSETID} ({TYPE},&nbsp;{MODEL}) has not been seen on the Nissan network for 30 days.&nbsp; This is a breach of Nissan&#39;s&nbsp;guidelines and is a security risk.&nbsp; Please, at your earliest convenience, log this asset back onto the network.</span></span></p>
+
+<p><span style="font-size:12px"><span style="font-family:verdana,geneva,sans-serif">However, if any of the following apply&nbsp;please inform the&nbsp;Service Desk with this <a href="https://nissannisaprod.service-now.com/nissan_it_service_management?id=sc_cat_item&amp;sys_id=4e45e2ebdbcf8700382481cc0b961913">link</a>&nbsp;:</span></span></p>
+
+<p><span style="font-size:12px"><span style="font-family:verdana,geneva,sans-serif">&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; You believe that this asset has been on the network recently</span></span></p>
+
+<p><span style="font-size:12px"><span style="font-family:verdana,geneva,sans-serif">&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; You have a legitimate reason why this asset will continue to be off the network</span></span></p>
+
+<p><span style="font-size:12px"><span style="font-family:verdana,geneva,sans-serif">&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; You are not the appropriate contact for this asset</span></span></p>
+
+<p><span style="font-size:12px"><span style="font-family:verdana,geneva,sans-serif">Please do not ignore this email, if no action is taken then this asset will be removed from the network and will no longer function.</span></span></p>
+
+<p><span style="font-size:12px"><span style="font-family:verdana,geneva,sans-serif">Thanks</span></span></p>
+
+<p>{IMAGE:nissan_signature.png}</p>
+
+<hr />
+<p><span style="font-size:12px"><span style="font-family:verdana,geneva,sans-serif"><strong>Asset Governance</strong></span></span><br />
+&nbsp;</p>
+','Asset {ASSETID} not on the Network','asset.governance@nissan-europe.com','asset.governance@nissan-europe.com','','Tombstone','Tombstone Warning 1','','1','1','','Asset','0','Tombstone','10')
+SELECT @templateID = templateID FROM  sys_event where eventID = @eventID
+														IF NOT EXISTS (SELECT * from sys_event WHERE templateID = @templateID) UPDATE sys_event SET  templateID = @templateID WHERE eventID = @eventID
+														INSERT INTO A_BitCondition ( [Attribute], [GroupName], [Order], [ConditionSQL], [BitPosition], [Table], [Field], [IdentityID], [Distinct], [Active], [ConditionClassID], [ConditionCID], [Pass])
+ VALUES('TEST','TEST','23','','23','Asset','BitStatus','AssetID','1','1','',@collectionID,'0')
+INSERT INTO A_Collection ( [Name], [Order], [Auth_User], [Visible], [Type], [Marker], [CollectionClassID], [Colour], [Locked], [Deployed], [EndState], [Group], [CREF], [CriteriaState], [x_Auto], [Ignore])
+ VALUES('set 3','200','','1','ASSET','1',@CollectionClassID,'primary','0','0','0','','','','0','')
+SET @collectionID = scope_identity()
+SELECT @DefaultCollectionID = DefaultCollectionID FROM  A_CollectionClass where CollectionClassID = @collectionClassID
+						IF NOT EXISTS (SELECT * from A_Collection WHERE CollectionID = @DefaultCollectionID) UPDATE A_CollectionClass SET  DefaultCollectionID = @collectionID WHERE CollectionClassID = @collectionClassID
+						|Collection|1|
+17|Application Owner|Full Application Owner Process|DECLARE @CollectionClassID INT, @collectionID INT, @DefaultCollectionID INT, @templateID INT, @eventID INT
+INSERT INTO A_CollectionClass ( [Name], [Description], [Distinct], [Status], [WorkstreamID], [ViewActive], [CLASSREF], [UseCollectionColours], [Tracker], [CriteriaState], [CriteriaCollectionID], [DefaultCollectionID], [DefaultCollectionType])
+VALUES('Application Owner','Confirms Application Owners','1','0','1',NULL,'0','1','0','0','0','APPLICATION')
+SET @collectionClassID = scope_identity()
+INSERT INTO A_Collection ( [Name], [Order], [Auth_User], [Visible], [Type], [Marker], [CollectionClassID], [Colour], [Locked], [Deployed], [EndState], [Group], [CREF], [CriteriaState], [x_Auto], [Ignore])
+VALUES('Discovery','0',NULL,'1','Application','1',@CollectionClassID,'yellow','0','0','0',NULL,'AppOwner-Discovery',NULL,'0','0')
+SET @collectionID = scope_identity()
+SELECT @DefaultCollectionID = DefaultCollectionID FROM  A_CollectionClass where CollectionClassID = @collectionClassID
+                                                                                      IF NOT EXISTS (SELECT * from A_Collection WHERE CollectionID = @DefaultCollectionID) UPDATE A_CollectionClass SET  DefaultCollectionID = @collectionID WHERE CollectionClassID = @collectionClassID
+                                                                                      INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error])
+VALUES('Scheduled Discover',@collectionID,NULL,'10','0',NULL,'5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20','1','select distinct ApplicationID as ItemID from arm_core..appAstToBe',NULL,NULL,'Add all Applications To Be',NULL)
+INSERT INTO A_Collection ( [Name], [Order], [Auth_User], [Visible], [Type], [Marker], [CollectionClassID], [Colour], [Locked], [Deployed], [EndState], [Group], [CREF], [CriteriaState], [x_Auto], [Ignore])
+VALUES('Engage','10',NULL,'1','Application','1',@CollectionClassID,'orange','0','0','0',NULL,'AppOwner-Engage',NULL,'0','0')
+SET @collectionID = scope_identity()
+SELECT @DefaultCollectionID = DefaultCollectionID FROM  A_CollectionClass where CollectionClassID = @collectionClassID
+                                                                                      IF NOT EXISTS (SELECT * from A_Collection WHERE CollectionID = @DefaultCollectionID) UPDATE A_CollectionClass SET  DefaultCollectionID = @collectionID WHERE CollectionClassID = @collectionClassID
+                                                                                      INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error])
+VALUES('Scheduled Move',@collectionID,'20','0',NULL,NULL,NULL,'1',NULL,'AppOwner-ContactUsers',NULL,'If no resolution in 20 days, move to Contact Users',NULL)
+INSERT INTO A_Collection ( [Name], [Order], [Auth_User], [Visible], [Type], [Marker], [CollectionClassID], [Colour], [Locked], [Deployed], [EndState], [Group], [CREF], [CriteriaState], [x_Auto], [Ignore])
+VALUES('Confirm Details','20',NULL,'1','Application','0',@CollectionClassID,'green','0','0','0',NULL,'AppOwner-ConfirmDetails',NULL,'0','0')
+SET @collectionID = scope_identity()
+SELECT @DefaultCollectionID = DefaultCollectionID FROM  A_CollectionClass where CollectionClassID = @collectionClassID
+                                                                                      IF NOT EXISTS (SELECT * from A_Collection WHERE CollectionID = @DefaultCollectionID) UPDATE A_CollectionClass SET  DefaultCollectionID = @collectionID WHERE CollectionClassID = @collectionClassID
+                                                                                      INSERT INTO A_Collection ( [Name], [Order], [Auth_User], [Visible], [Type], [Marker], [CollectionClassID], [Colour], [Locked], [Deployed], [EndState], [Group], [CREF], [CriteriaState], [x_Auto], [Ignore])
+VALUES('Ready','30',NULL,'1','Application','0',@CollectionClassID,'dark-azure','0','0','1',NULL,'AppOwner-Ready',NULL,'0','0')
+SET @collectionID = scope_identity()
+SELECT @DefaultCollectionID = DefaultCollectionID FROM  A_CollectionClass where CollectionClassID = @collectionClassID
+                                                                                      IF NOT EXISTS (SELECT * from A_Collection WHERE CollectionID = @DefaultCollectionID) UPDATE A_CollectionClass SET  DefaultCollectionID = @collectionID WHERE CollectionClassID = @collectionClassID
+                                                                                      INSERT INTO A_Collection ( [Name], [Order], [Auth_User], [Visible], [Type], [Marker], [CollectionClassID], [Colour], [Locked], [Deployed], [EndState], [Group], [CREF], [CriteriaState], [x_Auto], [Ignore])
+VALUES('No Owner','40',NULL,'1','Application','0',@CollectionClassID,'dark-purple','0','0','1',NULL,'AppOwner-NoOwner',NULL,'0','0')
+SET @collectionID = scope_identity()
+SELECT @DefaultCollectionID = DefaultCollectionID FROM  A_CollectionClass where CollectionClassID = @collectionClassID
+                                                                                      IF NOT EXISTS (SELECT * from A_Collection WHERE CollectionID = @DefaultCollectionID) UPDATE A_CollectionClass SET  DefaultCollectionID = @collectionID WHERE CollectionClassID = @collectionClassID
+                                                                                      INSERT INTO A_Collection ( [Name], [Order], [Auth_User], [Visible], [Type], [Marker], [CollectionClassID], [Colour], [Locked], [Deployed], [EndState], [Group], [CREF], [CriteriaState], [x_Auto], [Ignore])
+VALUES('Contact Users','25',NULL,'1','Application','0',@CollectionClassID,'dark-yellow','0','0','0',NULL,'AppOwner-ContactUsers',NULL,'0','0')
+SET @collectionID = scope_identity()
+SELECT @DefaultCollectionID = DefaultCollectionID FROM  A_CollectionClass where CollectionClassID = @collectionClassID
+                                                                                      IF NOT EXISTS (SELECT * from A_Collection WHERE CollectionID = @DefaultCollectionID) UPDATE A_CollectionClass SET  DefaultCollectionID = @collectionID WHERE CollectionClassID = @collectionClassID
+                                                                                      INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error])
+VALUES('Scheduled Move',@collectionID,'20','0',NULL,NULL,NULL,'1',NULL,'AppOwner-NoOwner',NULL,'If no resolution in 20 days then move to No Owner',NULL)
+INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error])
+VALUES('Scheduled Mailer',@collectionID,'10','10',NULL,NULL,NULL,'0',NULL,NULL,'2','yrdrt',NULL)
+IF (SELECT COUNT(*) FROM NotificationTemplate WHERE [label] = 'AO_Confirm') = 0 INSERT INTO NotificationTemplate ( [Template], [Subject], [SendFrom], [ReplyTo], [CC], [Type], [Label], [BCC], [ReadReceipt], [Important], [Readonly], [ItemType], [templateThrottle], [Process])
+VALUES('<p><span style="font-family:Verdana,Geneva,sans-serif; font-size:12px">Hi {APPOWNER}</span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif">Our records show that you are the current Application Owner for {APPGROUPNAME}.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif">It is crucial that each Application has an Owner&nbsp;to manage usage, licensing, new versions and testing.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif">Are you the Application Owner for {APPGROUPNAME}?</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif"><span style="color:#c0392b">(Please ensure you are connected to the Nissan Network before clicking on the options below)</span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif"></span></span></p>
+
+<table>
+              <tbody>
+                             <tr>
+                                           <td>{BUTTON:A6B32EE2-2BB8-4842-B1C8-1ECC53A89BCA}</td>
+                                           <td>&nbsp;</td>
+                                           <td>{BUTTON:A86B97EF-61A9-49D1-B261-1D6F5194DFA5}</td>
+                             </tr>
+              </tbody>
+</table>
+
+<p><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif"></span></span></p>
+
+<p><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif"></span></span></p>
+
+<p><span style="font-family:Verdana,Geneva,sans-serif"><span style="font-size:12px">Thanks</span></span></p>
+
+<p><span style="font-family:Verdana,Geneva,sans-serif"><span style="font-size:12px">{IMAGE:nissan_signature.png}</span></span></p>
+
+<hr />
+<p><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif"><strong>Software Governance</strong><br />
+<a href=mailto:asset.governance@nissan-europe.com>software.governance@nissan-europe.com</a></span></span></p>
+','Application Owner for {APPGROUPNAME}','Software.Governance@nissan-europe.com','Software.Governance@nissan-europe.com',NULL,'App Owner','AO_Confirm',NULL,'0','0','0','Application','0','App Owner')
+SELECT @templateID = templateID FROM  sys_event where eventID = @eventID
+                                                                                                                                                                                                         IF NOT EXISTS (SELECT * from sys_event WHERE templateID = @templateID) UPDATE sys_event SET  templateID = @templateID WHERE eventID = @eventID
+|Collection|1|
+18|JRR : TEST2| ||Collection|1|
+25|| |DECLARE @CollectionClassID INT, @collectionID INT, @DefaultCollectionID INT, @templateID INT, @eventID INT
+INSERT INTO A_Collection ( [Name], [Order], [Auth_User], [Visible], [Type], [Marker], [CollectionClassID], [Colour], [Locked], [Deployed], [EndState], [Group], [CREF], [CriteriaState], [x_Auto], [Ignore], [Protect]) VALUES('Set 1','0',NULL,'1','Asset','0',@CollectionClassID,'black','0','0','0',NULL,NULL,NULL,NULL,NULL,'0')SET @collectionID = scope_identity()SELECT @DefaultCollectionID = DefaultCollectionID FROM  A_CollectionClass where CollectionClassID = @collectionClassID
+						IF NOT EXISTS (SELECT * from A_Collection WHERE CollectionID = @DefaultCollectionID) UPDATE A_CollectionClass SET  DefaultCollectionID = @collectionID WHERE CollectionClassID = @collectionClassID
+						INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef]) VALUES('Scheduled Move',@collectionID,'0','20',NULL,NULL,NULL,'0',NULL,'Demo-Discovery',NULL,'Move Engage',NULL,NULL)SELECT @eventID =  scope_identity()INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef]) VALUES('Scheduled Mailer',@collectionID,NULL,'10',NULL,NULL,NULL,'0',NULL,NULL,NULL,'Warning test',NULL,NULL)SELECT @eventID =  scope_identity()INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef]) VALUES('Scheduled Action',@collectionID,NULL,'30',NULL,'Application-Test Complete',NULL,'0',NULL,NULL,NULL,'ss',NULL,'Action - Asset')SELECT @eventID =  scope_identity()|Collection|1|
+26|| |DECLARE @CollectionClassID INT, @collectionID INT, @DefaultCollectionID INT, @templateID INT, @eventID INT
+INSERT INTO A_Collection ( [Name], [Order], [Auth_User], [Visible], [Type], [Marker], [CollectionClassID], [Colour], [Locked], [Deployed], [EndState], [Group], [CREF], [CriteriaState], [x_Auto], [Ignore], [Protect]) VALUES('Set 1','0',NULL,'1','Asset','0',@CollectionClassID,'black','0','0','0',NULL,NULL,NULL,NULL,NULL,'0')SET @collectionID = scope_identity()SELECT @DefaultCollectionID = DefaultCollectionID FROM  A_CollectionClass where CollectionClassID = @collectionClassID
+						IF NOT EXISTS (SELECT * from A_Collection WHERE CollectionID = @DefaultCollectionID) UPDATE A_CollectionClass SET  DefaultCollectionID = @collectionID WHERE CollectionClassID = @collectionClassID
+						INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef]) VALUES('Scheduled Move',@collectionID,'0','20',NULL,NULL,NULL,'0',NULL,'Demo-Discovery',NULL,'Move Engage',NULL,NULL)SELECT @eventID =  scope_identity()INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef]) VALUES('Scheduled Mailer',@collectionID,NULL,'10',NULL,NULL,NULL,'0',NULL,NULL,NULL,'Warning test',NULL,NULL)SELECT @eventID =  scope_identity()INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef]) VALUES('Scheduled Action',@collectionID,NULL,'30',NULL,'Application-Test Complete',NULL,'0',NULL,NULL,NULL,'ss',NULL,'Action - Asset')SELECT @eventID =  scope_identity()|Collection|1|
+27|| |DECLARE @CollectionClassID INT, @collectionID INT, @DefaultCollectionID INT, @templateID INT, @eventID INT
+INSERT INTO A_Collection ( [Name], [Order], [Auth_User], [Visible], [Type], [Marker], [CollectionClassID], [Colour], [Locked], [Deployed], [EndState], [Group], [CREF], [CriteriaState], [x_Auto], [Ignore], [Protect]) VALUES('Set 1','0',NULL,'1','Asset','0',@CollectionClassID,'black','0','0','0',NULL,NULL,NULL,NULL,NULL,'0')SET @collectionID = scope_identity()SELECT @DefaultCollectionID = DefaultCollectionID FROM  A_CollectionClass where CollectionClassID = @collectionClassID
+						IF NOT EXISTS (SELECT * from A_Collection WHERE CollectionID = @DefaultCollectionID) UPDATE A_CollectionClass SET  DefaultCollectionID = @collectionID WHERE CollectionClassID = @collectionClassID
+						INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef]) VALUES('Scheduled Move',@collectionID,'0','20',NULL,NULL,NULL,'0',NULL,'Demo-Discovery',NULL,'Move Engage',NULL,NULL)SELECT @eventID =  scope_identity()INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef]) VALUES('Scheduled Mailer',@collectionID,NULL,'10',NULL,NULL,NULL,'0',NULL,NULL,NULL,'Warning test',NULL,NULL)SELECT @eventID =  scope_identity()INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef]) VALUES('Scheduled Action',@collectionID,NULL,'30',NULL,'Application-Test Complete',NULL,'0',NULL,NULL,NULL,'ss',NULL,'Action - Asset')SELECT @eventID =  scope_identity()|Collection|1|
+30|JRR : TEST| |DECLARE @CollectionClassID INT, @collectionID INT, @DefaultCollectionID INT, @templateID INT, @eventID INT
+INSERT INTO A_CollectionClass ( [Name], [Description], [Distinct], [Status], [WorkstreamID], [ViewActive], [CLASSREF], [UseCollectionColours], [Tracker], [CriteriaState], [CriteriaCollectionID], [DefaultCollectionID], [DefaultCollectionType]) VALUES('Demo Class','Used for start up and demo','1','0','0','1',NULL,'1','1',NULL,'0','0','ASSET')SET @collectionClassID = scope_identity()INSERT INTO A_Collection ( [Name], [Order], [Auth_User], [Visible], [Type], [Marker], [CollectionClassID], [Colour], [Locked], [Deployed], [EndState], [Group], [CREF], [CriteriaState], [x_Auto], [Ignore], [Protect]) VALUES('Set 1','0',NULL,'1','Asset','0',@CollectionClassID,'black','0','0','0',NULL,NULL,NULL,NULL,NULL,'0')SET @collectionID = scope_identity()SELECT @DefaultCollectionID = DefaultCollectionID FROM  A_CollectionClass where CollectionClassID = @collectionClassID
+						IF NOT EXISTS (SELECT * from A_Collection WHERE CollectionID = @DefaultCollectionID) UPDATE A_CollectionClass SET  DefaultCollectionID = @collectionID WHERE CollectionClassID = @collectionClassID
+						INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef]) VALUES('Scheduled Move',@collectionID,'0','20',NULL,NULL,NULL,'0',NULL,'Demo-Discovery',NULL,'Move Engage',NULL,NULL)SELECT @eventID =  scope_identity()INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef]) VALUES('Scheduled Mailer',@collectionID,NULL,'10',NULL,NULL,NULL,'0',NULL,NULL,NULL,'Warning test',NULL,NULL)SELECT @eventID =  scope_identity()INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef]) VALUES('Scheduled Action',@collectionID,NULL,'30',NULL,'Application-Test Complete',NULL,'0',NULL,NULL,NULL,'ss',NULL,'Action - Asset')SELECT @eventID =  scope_identity()INSERT INTO A_Collection ( [Name], [Order], [Auth_User], [Visible], [Type], [Marker], [CollectionClassID], [Colour], [Locked], [Deployed], [EndState], [Group], [CREF], [CriteriaState], [x_Auto], [Ignore], [Protect]) VALUES('Set 2','10',NULL,'1','Asset','0',@CollectionClassID,'green','0','0','0',NULL,NULL,NULL,NULL,NULL,'0')SET @collectionID = scope_identity()SELECT @DefaultCollectionID = DefaultCollectionID FROM  A_CollectionClass where CollectionClassID = @collectionClassID
+						IF NOT EXISTS (SELECT * from A_Collection WHERE CollectionID = @DefaultCollectionID) UPDATE A_CollectionClass SET  DefaultCollectionID = @collectionID WHERE CollectionClassID = @collectionClassID
+						INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef]) VALUES('Scheduled Synchronise',@collectionID,NULL,NULL,NULL,NULL,NULL,'0',NULL,NULL,NULL,'put me in B also',NULL,NULL)SELECT @eventID =  scope_identity()INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef]) VALUES('Immediate Synchronise',@collectionID,NULL,NULL,'1',NULL,NULL,'0',NULL,NULL,NULL,'run me now',NULL,NULL)SELECT @eventID =  scope_identity()INSERT INTO Sys_Event ( [EventType], [CollectionID], [DayTrigger], [Order], [SynchroniseType], [ActionRef], [Frequency], [Active], [SQL], [TargetCollectionRef], [TemplateID], [Description], [Error], [SetRef]) VALUES('Scheduled Mailer',@collectionID,'0','10',NULL,NULL,NULL,'1',NULL,NULL,'107','Tombstone warning 1 test','Failed to Run : Incorrect syntax near '')''. : Nov 15 2022 11:00PM',NULL)SELECT @eventID =  scope_identity() IF (SELECT COUNT(*) FROM NotificationTemplate WHERE [label] = 'Tombstone 30+ Days') = 0 
+															BEGIN
+															INSERT INTO NotificationTemplate ( [Template], [Subject], [SendFrom], [ReplyTo], [CC], [Type], [Label], [BCC], [ReadReceipt], [Important], [Readonly], [ItemType], [templateThrottle], [Process], [DataSet]) VALUES('&lt;p&gt;&lt;span style="font-size:12px"&gt;&lt;span style="font-family:verdana,geneva,sans-serif"&gt;Hi {FIRSTNAME}&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;&#x0D;
+&#x0D;
+&lt;p&gt;&lt;span style="font-size:12px"&gt;&lt;span style="font-family:verdana,geneva,sans-serif"&gt;Your asset {ASSETID} ({TYPE},&amp;nbsp;{MODEL}) has not been seen on the Nissan network for at least&amp;nbsp;30 days.&amp;nbsp; This is a breach of Nissan&amp;#39;s&amp;nbsp;guidelines and is a security risk.&amp;nbsp; Please, at your earliest convenience, log this asset back onto the network. If you are working from home, Please ensure your asset is&amp;nbsp;connected to the VPN.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;&#x0D;
+&#x0D;
+&lt;p&gt;&lt;span style="font-size:12px"&gt;&lt;span style="font-family:verdana,geneva,sans-serif"&gt;However, if any of the following apply&amp;nbsp;please select the relevant link&amp;nbsp;:&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;&#x0D;
+&#x0D;
+&lt;p&gt;&lt;span style="font-size:12px"&gt;&lt;span style="font-family:verdana,geneva,sans-serif"&gt;&amp;middot;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;a href=mailto:asset.governance@nissan-europe.com?subject=Asset%20has%20been%20on%20the%20Network&amp;amp;body=Hi%0A%0AThe%20following%20machine%20has%20been%20on%20the%20network%20in%20the%20past%2030%20days%20-%20%7BASSETID%7D.&gt;You believe that this asset has been on the network recently&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;&#x0D;
+&#x0D;
+&lt;p&gt;&lt;span style="font-size:12px"&gt;&lt;span style="font-family:verdana,geneva,sans-serif"&gt;&amp;middot;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;a href=mailto:asset.governance@nissan-europe.com?subject=Asset%20is%20off%20the%20network&amp;amp;body=Hi%0A%0A%7BASSETID%7D%20has%20not%20been%20on%20the%20network%20in%20the%20past%2030%20days.%0A%0A%5BPlease%20add%20the%20reason%20this%20asset%20has%20not%20been%20on%20the%20network%5D&gt;You have a legitimate reason why this asset will continue to be off the network&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;&#x0D;
+&#x0D;
+&lt;p&gt;&lt;span style="font-size:12px"&gt;&lt;span style="font-family:verdana,geneva,sans-serif"&gt;&amp;middot;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;a href=mailto:asset.governance@nissan-europe.com?subject=Not%20my%20device&amp;amp;body=Hi%20%0A%0AI%20am%20not%20the%20appropriate%20contact%20for%20the%20following%20asset%20%7BASSETID%7D.%0A%0A%5BPlease%20add%20any%20more%20information%20that%20you%20have%5D%20%0A%0A&gt;You are not the appropriate contact for this asset&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;&#x0D;
+&#x0D;
+&lt;p&gt;&lt;span style="font-size:12px"&gt;&lt;span style="font-family:verdana,geneva,sans-serif"&gt;&amp;middot;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;a href=mailto:asset.governance@nissan-europe.com?subject=Return%20asset&amp;amp;body=Hi%0A%0A%7BAssetID%7D%20is%20no%20longer%20needed.%20Please%20collect%20the%20device.&gt;The asset is no longer needed and can be returned&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;&#x0D;
+&#x0D;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#x0D;
+&#x0D;
+&lt;p&gt;&lt;span style="font-size:12px"&gt;&lt;span style="font-family:verdana,geneva,sans-serif"&gt;Please do not ignore this email, if no action is taken then this asset will be removed from the network and will no longer function.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;&#x0D;
+&#x0D;
+&lt;p&gt;&lt;span style="font-size:12px"&gt;&lt;span style="font-family:verdana,geneva,sans-serif"&gt;Thanks&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;&#x0D;
+&#x0D;
+&lt;p&gt;{IMAGE:nissan_signature.png}&lt;/p&gt;&#x0D;
+&#x0D;
+&lt;hr /&gt;&#x0D;
+&lt;p&gt;&lt;span style="font-size:12px"&gt;&lt;span style="font-family:verdana,geneva,sans-serif"&gt;&lt;strong&gt;Asset Governance&lt;/strong&gt;&lt;/span&gt;&lt;/span&gt;&lt;br /&gt;&#x0D;
+&amp;nbsp;&lt;/p&gt;&#x0D;
+','Asset {ASSETID} not on the Network','asset.governance@nissan-europe.com','asset.governance@nissan-europe.com',NULL,'Tombstone','Tombstone 30+ Days',NULL,'0','0','0','Asset','0','Tombstone','0') SELECT @templateID =  scope_identity()
+															 END
+															 ELSE
+															 BEGIN
+															  SELECT @templateID = templateID  FROM NotificationTemplate WHERE [label] = 'Tombstone 30+ Days'
+															 END
+									
+														IF NOT EXISTS (SELECT * from sys_event WHERE templateID = @templateID) UPDATE sys_event SET  templateID = @templateID WHERE eventID = @eventID
+														INSERT INTO A_BitCondition ( [Attribute], [GroupName], [Order], [ConditionSQL], [BitPosition], [Table], [Field], [IdentityID], [Distinct], [Active], [ConditionClassID], [ConditionCID], [Pass]) VALUES('TEST','TEST','23',NULL,'23','Asset','BitStatus','AssetID','1','1',NULL,@collectionID,'0')INSERT INTO A_Collection ( [Name], [Order], [Auth_User], [Visible], [Type], [Marker], [CollectionClassID], [Colour], [Locked], [Deployed], [EndState], [Group], [CREF], [CriteriaState], [x_Auto], [Ignore], [Protect]) VALUES('set 3','200',NULL,'1','Asset','1',@CollectionClassID,'primary','0','0','0',NULL,NULL,NULL,'0','1','0')SET @collectionID = scope_identity()SELECT @DefaultCollectionID = DefaultCollectionID FROM  A_CollectionClass where CollectionClassID = @collectionClassID
+						IF NOT EXISTS (SELECT * from A_Collection WHERE CollectionID = @DefaultCollectionID) UPDATE A_CollectionClass SET  DefaultCollectionID = @collectionID WHERE CollectionClassID = @collectionClassID
+						|Collection|1|

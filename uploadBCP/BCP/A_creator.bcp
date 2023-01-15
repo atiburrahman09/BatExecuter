@@ -1,0 +1,8 @@
+1025|0| AS a WHERE collectionClassID = |
+1027|1| AS a WHERE collectionClassID = |1025
+1131|3| a INNER JOIN sys_event b on a.templateID = b.templateID WHERE b.eventID = |1173
+1173|2| AS a WHERE collectionID = |1027
+1098|5| AS a WHERE context = 'CollectionClass' AND contextID = |1025
+1098|6| AS a  WHERE context = 'Collection' AND contextID = |1027
+1141|7| AS a WHERE ConditionClassID = |1025
+1141|8|AS a WHERE ConditionCID = |1027

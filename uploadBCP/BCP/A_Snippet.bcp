@@ -1,0 +1,209 @@
+3|MY BUTTONS|<p>{BUTTON:072eaae4-65c6-422e-8b06-9962b6bedc14}</p>
+
+6|SNIP_APP_OWNER_SALUTATION|<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Arial,Helvetica,sans-serif"><span style="font-family:Arial,Helvetica,sans-serif"><span style="font-size:14px"></span></span></span><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif"><span style="font-family:Arial,Helvetica,sans-serif"></span>Hi {FIRSTNAME}&nbsp;</span></span></p>
+
+7|SNIP_EG_ARE_YOU_THE_OWNER|<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Arial,Helvetica,sans-serif"><span style="font-size:14px"></span></span><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif">As you may be aware, Nissan are upgrading their operating system to windows 10 (ACE2). The upgrade to windows 10 will deliver new features, functions, and security options, this means there is a risk that some applications may not work as intended and may require remediation.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif">We are currently in the process of identifying the application owner for the following software installed on your device - {ITEMID}&nbsp;. This&nbsp;is an important task as it is the responsibility of the application&nbsp;Owner to mitigate this risk by implementing the appropriate level of&nbsp;testing before the update is applied.</span></span></p>
+
+9|SNIP_TASK|<p><span style="font-size:14px"><strong><span style="font-family:Arial, Helvetica, sans-serif">You have been identified</span><span style="font-family:Calibri"> </span><span style="font-family:Arial, Helvetica, sans-serif">as an&nbsp;application owner.</span></strong><span style="font-family:Arial, Helvetica, sans-serif">&nbsp;Please click </span><a href="http://uk-nmuk-s0514:81/TaskMonitor/" style="font-family: Arial, Helvetica, sans-serif;">HERE</a><span style="font-family:Arial, Helvetica, sans-serif"> to confirm this information is correct.</span></span></p>
+
+<p><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif"><span style="color:#e74c3c">Note: If you are not in a Nissan&nbsp;office you should first log into the Nissan Intranet using VPN (Cisco AnyConnect); the above link is not available otherwise.</span></span></span></p>
+
+<p><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif">To avoid unnecessary&nbsp;emails, only the first request will be sent via email, any others will be added directly to your list. A regular email will then be sent if you have any outstanding items.</span></span></p>
+
+10|SNIP_APP_READINESS_INTRO|<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Arial,Helvetica,sans-serif"><span style="font-size:14px">You are receiving this email as you are listed <strong>as the Application Owner for&nbsp;one or more applications&nbsp;</strong>on the Nissan Definitive Application List (DAL).</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Arial,Helvetica,sans-serif"><span style="font-size:14px">As you may be aware, Windows 10&nbsp;and Microsoft Office 365 are&nbsp;updated each year by&nbsp;Microsoft&nbsp;to deliver new features, functions, and security options.&nbsp;&nbsp;With each update, there is a risk that some business applications may not work as intended and may&nbsp;require remediation. </span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-family:Arial,Helvetica,sans-serif"><span style="font-size:14px">At this stage we are looking for assistance in defining&nbsp;the appropriate level of application testing before the update is applied.</span></span></p>
+
+11|SNIP_TASK_REMINDER|<p><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif"><span style="color:#000000">This is a reminder that you have outstanding task requiring your attention.</span></span></span></p>
+
+<p><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif"><span style="color:#000000">{PAYLOAD}</span></span></span></p>
+
+<p><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif"></span></span></p>
+
+12|SNIP_TASK_MONITOR|<p><span style="font-family:Arial,Helvetica,sans-serif"><span style="font-size:14px">Click <a href="http://uk-nmuk-s0514:81/TaskMonitor/"><span style="color:#0066cc">HERE</span></a> and review and update your tasks.</span></span></p>
+
+<p><span style="font-family:Arial,Helvetica,sans-serif"><span style="font-size:14px"><span style="color:#e74c3c">Note: If you are not in an Nissan office you should first log into the NIssan Intranet using VPN (Cisco AnyConnect); the above link is not available otherwise.</span></span></span></p>
+
+13|SNIP_EG_NOMINATE_TESTER|<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif">The Windows Update is now available for testing.&nbsp; Can you please nominate an appropriate person to Test the application?</span></span></p>
+
+14|SNIP_EG_TEST|<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif">As you may be aware, Windows 10&nbsp;and Microsoft Office 365 are&nbsp;updated each year by&nbsp;Microsoft&nbsp;to deliver new features, functions, and security options.&nbsp;&nbsp;With each update, there is a small risk that some business applications may not work as intended and may&nbsp;require remediation.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif">You have been nominated to test an application by an Application&nbsp;Business Owner.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif"></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif">You will be assigned a series of tasks, which are:</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif"></span></span></p>
+
+<ul>
+	<li><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif">Confirm the&nbsp;Device Name on which&nbsp;to run the tests.</span></span></li>
+	<li><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif">Confirm that the new Windows Update has been installed.</span></span></li>
+	<li><span style="font-size:14px"><span style="font-family:Arial,Helvetica,sans-serif">Confirm that the application functions normally on the&nbsp;updated version of Windows.&nbsp;&nbsp;Testing can be as formal or informal as you and the Application Business Owner require and&nbsp;does not require an approved test script or evidence of a pass.</span></span><span style="font-size:11pt"><span style="font-family:Calibri,sans-serif"></span></span><span style="font-size:11pt"><span style="font-family:Calibri,sans-serif"></span></span><span style="font-size:11pt"><span style="font-family:Calibri,sans-serif"></span></span></li>
+</ul>
+
+15|SNIP_PCR_BOOKING_LAPTOP|<p>You have a deployment appointment for {ASSETID} on <strong>{BDATE}</strong> at <strong>{BTIME}</strong> at the Data centre&nbsp;(Along the corridor from the medical centre next to the main entrance).</p>
+
+16|SNIP_PCR_RE-BOOK|<p><a href="{BOOKME}&amp;ws=8">Click Here</a> to cancel and re-book your&nbsp;appointment.</p>
+
+17|SNIP_PCR_DESKTOP_REPLACE|<p>Your {TYPE} - {ASSETID} is due to be replaced with a new PC.<br />
+<br />
+A number of appointments have been scheduled and you will be able to choose one that best suits you.<br />
+&nbsp;<br />
+Desktops and Workstations will be swapped at your desk.&nbsp;When booking, can you please enter an accurate location, as this will help us to find you.<br />
+&nbsp;</p>
+
+18|SNIP_PCR_NOTMYDEVICE|<p><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif">If you are not the owner of this device, please <a href="mailto:asset.governance@nissan-europe.com?subject=Not%20My%20Device&amp;body=Hi%20PC%20Replace%20Support%0A%0A{OWNER}%20does%20not%20own%20this%20devcice - %20{ASSETID}%0A%0A%5BPlease%20add%20any%20more%20information%20that%20you%20have%5D%0A" target="_top">Click Here to Contact Us</a>.</span></span></p>
+
+19|SNIP_PCR_MAKEAPPOINTMENT|<p><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif"><a href="{BOOKME}&amp;">Click Here</a> to make an appointment.</span></span></p>
+
+20|SNIP_PCR_SIGNATURE|<p><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif">Thanks</span></span></p>
+
+<p>{IMAGE:nissan_signature.png}</p>
+
+<hr />
+<p><strong>Asset Governance</strong><br />
+<a href="mailto:asset.governance@nissan-europe.com">asset.governance@nissan-europe.com</a></p>
+
+21|SNIP_PCR_KIOSK_REPLACE|<p>Your {TYPE} - {ASSETID} is due to be replaced with a new windows 10&nbsp;PC.<br />
+<br />
+A number of appointments have been scheduled and you will be able to choose one that best suits you.<br />
+&nbsp;<br />
+Laptops will be swapped at the Data centre&nbsp;(Along the corridor from the occupational health&nbsp;centre next to the main entrance, under ISD1).</p>
+
+22|SNIP_PCR_CHASEUP|<p>Ref: {TYPE} - {ASSETID}</p>
+
+<p><strong>Please Ignore if you have already booked.</strong></p>
+
+<p>We recently sent you an email requesting that you book an appointment for your PC to be upgraded to a windows 10 device.&nbsp;Please make a booking at your earliest convenience.</p>
+
+23|SNIP_PCR_APPOINTMENTCANCELLED|<p><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif">Your&nbsp;appointment has been <strong>cancelled</strong>.&nbsp;</span></span></p>
+
+<p><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif">It is important that your asset is&nbsp;replaced.&nbsp; Please re-book with the link below at your earliest convenience.</span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><a href="{BOOKME}&amp;">Click Here</a> to make an appointment.</p>
+
+<p><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif">If&nbsp;you have a specific reason that is preventing&nbsp;the PC replace, <a href="mailto:asset.governance@nissan-europe.com?subject=Not%20My%20Device&amp;body=Hi%20PC%20Replace%20Support%0A%0A{OWNER}%20does%20not%20own%20this%20devcice - %20{ASSETID}%0A%0A%5BPlease%20add%20any%20more%20information%20that%20you%20have%5D%0A" target="_top">Click Here to Contact Us</a>.</span></span></p>
+
+24|SNIP_PCR_REMINDER|<p>A quick reminder that&nbsp;you have a deployment appointment on tomorrow for {ASSETID}.</p>
+
+<h1><strong><span style="font-size:16px">Before you finish work today,&nbsp;please ensure that:</span></strong></h1>
+
+<p><span style="color:#e74c3c"><strong>It is important the below are completed before turning up to your appointment.</strong></span></p>
+
+<ul>
+	<li><span style="color:null">You have copied all of your data onto Onedrive</span></li>
+	<li><span style="color:null">Check that there is no user data on C: as this will not be backed up</span></li>
+</ul>
+
+<p>If you have a problem with your appointment,&nbsp;please <a href="mailto:asset.governance@nissan-europe.com?subject=Not%20My%20Device&amp;body=Hi%20PC%20Replace%20Support%0A%0A{OWNER}%20does%20not%20own%20this%20devcice - %20{ASSETID}%0A%0A%5BPlease%20add%20any%20more%20information%20that%20you%20have%5D%0A" target="_top">Click Here to Contact Us</a>.</p>
+
+25|SNIP_PCR_ASSETSTATUS|<p>You are the last registered user for asset {ASSETID}, it is now due to be replaced.</p>
+
+<p>This asset has been off the network for some time and we cannot locate it.</p>
+
+<p>If you are still in possession of the asset, can you please put it back on the network (for at least 1 week).</p>
+
+<p>Otherwise&nbsp;it would be very helpful if you could share any information you have about this asset?&nbsp; Was it replaced, was it set aside for a new starter, did you pass it on to someone else?</p>
+
+<p>Your help is greatly appreciated.</p>
+
+26|SNIP_PCR_BOOKINGCONFIRMATION|<p><span style="font-size:12px">Y<span style="font-family:Verdana,Geneva,sans-serif">our asset&nbsp;is now being prepared for you, in readiness for your appointment&nbsp;on <strong>{BDATE}</strong> at <strong>{BTIME}.</strong></span></span></p>
+
+<p><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif">We will be adhering to&nbsp;Covid19 protocols, please wear a facemask unless you are&nbsp;exempt.</span></span></p>
+
+<p><span style="font-size:16px"><span style="font-family:Verdana,Geneva,sans-serif"><strong>BEFORE&nbsp;your appointment:</strong></span></span></p>
+
+<p><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif"><span style="color:#e74c3c"></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif"><span style="background-color:pink"><strong><span style="color:black">We are reminding you that the backup of your local data must be done exclusively in Office 365&nbsp;</span></strong><span style="color:black">(OneDrive, Outlook emails and OneNote)&nbsp;<strong>and that you have confirmed that you have migrated your data.</strong><br />
+Think about verifying one last time that you have not forgotten to backup data in storage spaces that are not saved, like your desktop, your Windows 7 libraries, your old &quot;.PST&quot; archive files...</span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif"><em>Reminder : click&nbsp;<a href="https://nissangroup.sharepoint.com/teams/ER_NAE_000198_Office365_ACE2?env=Embedded" target="_blank"><span style="color:blue">HERE</span></a>&nbsp;to learn more about the global migration process to ACE2.</em></span></span></p>
+
+<h1><span style="font-size:16px"><span style="font-family:Verdana,Geneva,sans-serif"><strong>On the day of the appointment:</strong></span></span></h1>
+
+<p><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif">On&nbsp;<strong>{BDATE}</strong> at <strong>{BTIME}</strong>&nbsp;please come to the&nbsp;&nbsp;Data centre&nbsp;(Along the corridor from the occupational health&nbsp;centre next to the main entrance).</span></span></p>
+
+<ul>
+	<li><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif">Please bring your laptop and charger with you</span></span></li>
+	<li><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif">Make sure any work you have saved on the day is in OneDrive or a network drive</span></span></li>
+</ul>
+
+<p><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif"></span></span></p>
+
+<h1><span style="font-size:16px"><span style="font-family:Verdana,Geneva,sans-serif"><strong>After your appointment:</strong></span></span></h1>
+
+<p><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif">Any issues after the deployment,&nbsp;please email&nbsp;<a href="mailto:asset.governance@nissan-europe.com?subject=Post%20Appointment%20Issue&amp;body=Hi%20PC%20Replace%20Support%0A%0A{OWNER}%20has%20an%20issue%20with%20{ASSETID}%20after%20being%20deployed%20on%20{BDATE}.%0A%0APlease%20could%20you%20contact%20to%20arrange%20support" target="_top">Asset Governance</a>, and an&nbsp;engineer will be sent&nbsp;to support you.</span></span></p>
+
+<p><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif"><strong>Change your appointment:</strong></span></span></p>
+
+<p><span style="font-size:12px"><span style="font-family:Verdana,Geneva,sans-serif"><strong><a href="http://uk-nmuk-s0514:81/Admin/%7BBOOKME%7D&amp;WS=9">Click Here</a></strong>&nbsp;to&nbsp;cancel and re-book your&nbsp;appointment.</span></span></p>
+
+<p>&nbsp;</p>
+
+27|SNIP_PCR_DESK_APPOINTMENTCONFIRMATION|<p>You have a deployment appointment for {ASSETID} on <strong>{BDATE}</strong> at <strong>{BTIME}</strong> at your Desk.</p>
+
+<p>We will be adhering to&nbsp;Covid19 protocols, please wear a facemask unless you are&nbsp;exempt.</p>
+
+<h1><strong><span style="font-size:16px">BEFORE your appointment:</span></strong></h1>
+
+<p><span style="color:#e74c3c"><strong>It is important the below are completed before turning up to your appointment.</strong></span></p>
+
+<ul>
+	<li><span style="color:null">please make sure you have copied all of your data onto Onedrive</span></li>
+	<li><span style="color:null">Check that there is no user data on C: as this will not be backed up</span><span style="color:#e74c3c"></span></li>
+</ul>
+
+<h1><span style="font-size:16px"><strong>On the day of the appointment:</strong></span></h1>
+
+<p>Please be available at your desk at the time of the appointment.</p>
+
+<p>Make sure any work you have saved on the day is in OneDrive or a network drive.</p>
+
+<p>&nbsp;</p>
+
+<h1><span style="font-size:16px"><strong>After your appointment:</strong></span></h1>
+
+<p>Any issues after the deployment,&nbsp;please email <a href="mailto:asset.governance@nissan-europe.com?subject=Post%20Appointment%20Issue&amp;body=Hi%20PC%20Replace%20Support%0A%0A{OWNER}%20has%20an%20issue%20with%20{ASSETID}%20after%20being%20deployed%20on%20{BDATE}.%0A%0APlease%20could%20you%20contact%20to%20arrange%20support" target="_top">Asset Governance</a>, and an&nbsp;engineer will be sent&nbsp;to support you.</p>
+
+<p><strong>Change your appointment:</strong></p>
+
+<p><strong><a href="{BOOKME}&amp;WS=9">Click Here</a></strong> to&nbsp;cancel and re-book your&nbsp;appointment.</p>
+
+29|SNIP_JOHN_REED_SIGNATURE|<p style="margin-left:0cm; margin-right:0cm"><span style="color:#000000; font-family:Verdana,sans-serif"><span style="font-size:13.3333px"><strong>John Reed</strong></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:11pt"><span><span style="font-family:Calibri,sans-serif"><span style="font-size:8.0pt"><span><span style="color:black"></span></span></span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:11pt"><span><span style="font-family:Calibri,sans-serif"><span style="font-size:9.0pt"><span><span style="color:black">ISD &ndash; Site Service Delivery</span></span></span></span></span></span><br />
+<span style="font-size:11pt"><span><span style="font-family:Calibri,sans-serif"><span style="font-size:9.0pt"><span><span style="color:black">Nissan Motor Manufacturing UK &ndash; Sunderland Plant </span></span></span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:11pt"><span><span style="font-family:Calibri,sans-serif"><span style="font-size:9.0pt"><span><span style="color:black">Mobile : +44 7870564518</span></span></span><span style="font-size:9.0pt"><span><span style="color:black"></span></span></span></span></span></span><span style="font-size:11pt"><span><span><span style="font-family:Calibri,sans-serif"><u><span style="font-size:8.0pt"><span><span style="color:black"></span></span></span></u></span></span></span></span><span style="font-size:11pt"><span><span><span style="font-family:Calibri,sans-serif"><span><span><span><span><span><br />
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARIAAAACCAMAAAHUT5OoAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJUExURQAAAJeXl5mZmRsjdOoAAAACdFJOUwBAAE+MqAAAAAlwSFlzAAAOwwAADsMBx2+oZAAAACBJREFUKFNjYCIIGIlQQ4QSwoAqhlADMAwalwwWwMgAAJltBEPUzr9KAAAAAElFTkSuQmCC" style="height:2px; width:274px" /></span></span></span></span></span><u><span style="font-size:5.0pt"><span><span style="color:black"></span></span></span></u></span></span></span></span><span style="font-size:11pt"><span><span style="font-family:Calibri,sans-serif"><span style="font-size:5.0pt"><span><span style="color:#1f497d"></span></span></span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm">{IMAGE:nissan_signature.png}</p>
+
+34|SNIP_Harvey_Bex_SIGNATURE|<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:11pt"><span><span style="font-family:Calibri,sans-serif"><strong><span style="font-size:10.0pt"><span style="font-family:&quot;Verdana&quot;,sans-serif"><span style="color:black">Harvey Bex</span></span></span></strong></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:11pt"><span><span style="font-family:Calibri,sans-serif"><span style="font-size:8.0pt"><span style="font-family:&quot;Verdana&quot;,sans-serif"><span style="color:black"></span></span></span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:11pt"><span><span style="font-family:Calibri,sans-serif"><span style="font-size:9.0pt"><span style="font-family:&quot;Verdana&quot;,sans-serif"><span style="color:black">ISD &ndash; Application Readiness</span></span></span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:11pt"><span><span style="font-family:Calibri,sans-serif">&nbsp;</span></span></span><span style="font-size:11pt"><span><span style="font-family:Calibri,sans-serif"><span style="font-size:9.0pt"><span style="font-family:&quot;Verdana&quot;,sans-serif"><span style="color:black">Nissan Motor Manufacturing UK &ndash; Sunderland Plant </span></span></span><span style="font-size:9.0pt"><span style="font-family:&quot;Verdana&quot;,sans-serif"><span style="color:black"></span></span></span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:11pt"><span><span style="font-family:Calibri,sans-serif"><span style="font-size:9.0pt"><span style="font-family:&quot;Verdana&quot;,sans-serif"><span style="color:black">Mobile : +44 7813447383</span></span></span><span style="font-size:9.0pt"><span style="font-family:&quot;Arial&quot;,sans-serif"><span style="color:black"></span></span></span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:11pt"><span><span><span style="font-family:Calibri,sans-serif"><u><span style="font-size:8.0pt"><span style="font-family:&quot;Verdana&quot;,sans-serif"><span style="color:black"></span></span></span></u></span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:11pt"><span><span><span style="font-family:Calibri,sans-serif"><span><span><span><span><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARIAAAACCAMAAAHUT5OoAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJUExURQAAAJeXl5mZmRsjdOoAAAACdFJOUwBAAE+MqAAAAAlwSFlzAAAOwwAADsMBx2+oZAAAACBJREFUKFNjYCIIGIlQQ4QSwoAqhlADMAwalwwWwMgAAJltBEPUzr9KAAAAAElFTkSuQmCC" style="height:2px; width:274px" /></span></span></span></span></span><u><span style="font-size:5.0pt"><span style="font-family:&quot;Verdana&quot;,sans-serif"><span style="color:black"></span></span></span></u></span></span></span></span></p>
+
+<p style="margin-left:0cm; margin-right:0cm"><span style="font-size:11pt"><span><span style="font-family:Calibri,sans-serif"><span style="font-size:5.0pt"><span style="font-family:&quot;Arial&quot;,sans-serif"><span style="color:#1f497d"></span></span></span></span></span></span></p>
+
+<p>{IMAGE:nissan_signature.png}</p>
+
+<p style="margin-left:0cm; margin-right:0cm">&nbsp;</p>
+
